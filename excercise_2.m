@@ -32,9 +32,9 @@ a = str2double(inputs{7});
 b = str2double(inputs{8});
 
 % Set the figure window for drawing plots.
-fig = figure('Name','Exercise 2', 'NumberTitle', 'off');
+fig = figure('Name', 'Exercise 2', 'NumberTitle', 'off');
 fig.Position(3:4) = [800 600];
-movegui(fig,'center');
+movegui(fig, 'center');
 hold on;
 grid on;
 xlabel('X');
@@ -47,30 +47,30 @@ xlim([left_limit_x right_limit_x]);
 ylim([left_limit_y right_limit_y]);
 
 % Ask user to choose control vertices for the Bézier curve and plot them.
-control_points = zeros(num_cp,2);
-for i = 1:num_cp
+control_points = zeros(num_cp, 2);
+for i = 1 : num_cp
     [x, y] = ginput(1);
-    control_points(i,:) = [x, y];
-    plot_1 = plot(control_points(i,1), control_points(i,2), 'kx', ...
+    control_points(i, :) = [x, y];
+    plot_1 = plot(control_points(i, 1), control_points(i, 2), 'kx', ...
          'MarkerSize', 10);
     if i ~= 1
         plot_2 = plot(control_points(i-1:i,1), control_points(i-1:i,2), ...
              '-o', 'linewidth', 1, 'color', '#0072BD');
     end
 end
-legend([plot_1 plot_2],{'Control Points', 'Control Polygon'}, ...
+legend([plot_1 plot_2], {'Control Points', 'Control Polygon'}, ...
        'Location', 'best');
 
 % Calculate the parameter (t) steps for drawing the Bézier curve.
 steps = linspace(a, b, num_points);
-if a ~= 0 || b~=1
-    steps = (steps-a)/(b-a);
+if a ~= 0 || b ~= 1
+    steps = (steps-a) / (b-a);
 end
 
 % Calculate and plot the Bézier curve using de Casteljau algorithm.
 bezier_curve = zeros(num_points, 2);
 for i = 1 : num_points
-    bezier_curve(i,:) = de_casteljau(control_points, num_cp-1, steps(i));
+    bezier_curve(i, :) = de_casteljau(control_points, num_cp-1, steps(i));
 end
-plot(bezier_curve(:,1), bezier_curve(:,2), 'linewidth', 3, 'color', ...
+plot(bezier_curve(:, 1), bezier_curve(:, 2), 'linewidth', 3, 'color', ...
      '#D95319', 'DisplayName', 'Bézier Curve');

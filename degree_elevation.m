@@ -20,8 +20,8 @@ function [new_V] = degree_elevation(V, n)
 
     new_V = zeros(n+2, 2);
     new_V(1, :) = V(1, :);
-    new_V(end, :) = V(end,:);
-    for i = 1:n
+    new_V(end, :) = V(end, :);
+    for i = 1 : n
         new_V(i+1, :) = i/(n+1)*V(i, :) + (1-i/(n+1))*V(i+1, :);
     end
 end

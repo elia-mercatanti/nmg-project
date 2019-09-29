@@ -36,7 +36,7 @@ degree = 3;
 num_cp = degree + 1;
 
 % Set the figure window for drawing plots.
-fig = figure('Name','Exercise 6','NumberTitle','off');
+fig = figure('Name', 'Exercise 6', 'NumberTitle', 'off');
 fig.Position(3:4) = [800 600];
 movegui(fig, 'center');
 hold on;
@@ -51,11 +51,11 @@ xlim([left_limit_x right_limit_x]);
 ylim([left_limit_y right_limit_y]);
 
 % Ask user to choose control vertices for the Bézier curve and plot them.
-control_points = zeros(num_cp,2);
-for i = 1:num_cp
+control_points = zeros(num_cp, 2);
+for i = 1 : num_cp
     [x, y] = ginput(1);
-    control_points(i,:) = [x, y];
-    poi_plot = plot(control_points(i,1), control_points(i,2), 'kx', ...
+    control_points(i, :) = [x, y];
+    poi_plot = plot(control_points(i, 1), control_points(i, 2), 'kx', ...
          'MarkerSize', 10);
     if i ~= 1
         pol_plot = plot(control_points(i-1:i,1), control_points(i-1:i, ...
@@ -65,21 +65,21 @@ end
    
 % Calculate the parameter (t) steps for drawing the Bézier curves.
 steps = linspace(a, b, num_points);
-if a ~= 0 || b~=1
-    steps = (steps-a)/(b-a);
+if a ~= 0 || b ~= 1
+    steps = (steps-a) / (b-a);
 end
 
 % Calculate and plot the Bézier curve using de Casteljau algorithm.
 bezier_curve = zeros(num_points, 2);
 for i = 1 : num_points
-    bezier_curve(i,:) = de_casteljau(control_points, degree, steps(i));
+    bezier_curve(i, :) = de_casteljau(control_points, degree, steps(i));
 end
-curve_plot = plot(bezier_curve(:,1), bezier_curve(:,2), 'linewidth', 3, ...
-                  'color', '#D95319');
+curve_plot = plot(bezier_curve(:, 1), bezier_curve(:, 2), 'linewidth', ...
+                  3, 'color', '#D95319');
  
 % Plot new control polygons from degree elevation algorithm.
 cp_plot_cell = cell(3);
-for i = 1:3
+for i = 1 : 3
     control_points = degree_elevation(control_points, degree+i-1);
     plot(control_points(:, 1), control_points(:, 2), 'kx', ...
          'MarkerSize', 10);

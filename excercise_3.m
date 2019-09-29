@@ -32,7 +32,7 @@ b = str2double(inputs{7});
 
 % Initialize degree, control points and parametric equations of the curve.
 degree = 3;
-control_points = zeros(degree + 1, 2);
+control_points = zeros(degree+1, 2);
 syms t real;
 x = 1 + t + t^2;
 y = t^3;
@@ -65,14 +65,14 @@ control_points(3, 2) = subs(y_second_derivative, 0)/(factorial(degree)/ ...
                        factorial(degree-j_derivative)) - ...
                        control_points(1, 2) + 2*control_points(2, 2);
 
-% Calculate fourth control point using second parametric equations.
+% Calculate fourth control point using parametric equations.
 control_points(4, 1) = subs(x, t, 1);
 control_points(4, 2) = subs(y, t, 1);
 
 % Set the figure window for drawing plots.
-fig = figure('Name','Exercise 3','NumberTitle','off');
+fig = figure('Name', 'Exercise 3', 'NumberTitle', 'off');
 fig.Position(3:4) = [800 600];
-movegui(fig,'center');
+movegui(fig, 'center');
 hold on;
 grid on;
 xlabel('X');
@@ -94,15 +94,15 @@ legend([plot_1 plot_2],{'Control Points', 'Control Polygon'}, ...
 
 % Calculate the parameter (t) steps for drawing the Bézier curve.
 steps = linspace(a, b, num_points);
-if a ~= 0 || b~=1
-    steps = (steps-a)/(b-a);
+if a ~= 0 || b ~= 1
+    steps = (steps-a) / (b-a);
 end
 
 % Calculate and plot the Bézier curve using de Casteljau algorithm.
 bezier_curve = zeros(num_points, 2);
 for i = 1 : num_points
-    bezier_curve(i,:) = de_casteljau(control_points, degree, steps(i));
+    bezier_curve(i, :) = de_casteljau(control_points, degree, steps(i));
 end
-plot(bezier_curve(:,1), bezier_curve(:,2), 'linewidth', 3, 'color', ...
+plot(bezier_curve(:, 1), bezier_curve(:, 2), 'linewidth', 3, 'color', ...
      '#D95319', 'DisplayName', 'Bézier Curve');
  

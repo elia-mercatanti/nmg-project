@@ -1,8 +1,8 @@
 % excercise_7:
-%   Takes V0=(0,0,0), V1=(1,2,0), V2=(3,2,0), V3 =(6,-1,0) as control 
-%   points of a cubic Bézier curve and builds one second cubic Bézier curve
-%   that connects with continuity C^2 with the previus curve. Display the 
-%   two curves and their respective control polygons.
+%   Takes V0=(0,0,0), V1=(1,2,0), V2=(3,2,0), V3=(6,-1,0) as control points
+%   of a cubic Bézier curve and builds one second cubic Bézier curve that
+%   connects with continuity C^2 with the previus curve. Display the two 
+%   curves and their respective control polygons.
 %
 % Requires:
 %   - de_casteljau.m
@@ -50,7 +50,7 @@ CP_2(2, :) = CP_1(end, :)/h_1*(h_1+h_2) - CP_1(end-1, :)*h_2/h_1;
 
 % Force C^2 continuity, calculate third point of CP_2.
 CP_2(3, :) = CP_2(2, :)*h_2/h_1 + CP_2(2, :) - CP_1(end-1, :)*h_2/h_1 ...
-             - (CP_1(end-1, :)-CP_1(end-2, :))*((h_2)^2)/(h_1^2);
+             - (CP_1(end-1, :)-CP_1(end-2, :))*(h_2)^2/(h_1^2);
 
 % Calculate fourth point of CP_2, at random.
 CP_2(4, :) = [12 randi(10)];

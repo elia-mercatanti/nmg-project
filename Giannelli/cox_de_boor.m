@@ -22,5 +22,3 @@ function [omega_ir] = omega(i, r, t_star, t)
         omega_ir = 0;
     end
 end
-
-

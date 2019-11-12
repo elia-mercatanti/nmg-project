@@ -1,0 +1,3 @@
+function [surface_point] = de_boor_algorithm_surface(t_1, t_2, ....
+                 t_1_star, t_2_star, degree_1, degree_2, control_points)
+

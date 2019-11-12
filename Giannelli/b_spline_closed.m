@@ -66,3 +66,4 @@ for i = 1 : num_points
 end
 curve_plot = plot(b_spline_curve(:, 1), b_spline_curve(:, 2), 'linewidth', ...
                   3, 'color', '#D95319');
+              

@@ -12,7 +12,7 @@ s = sum(eq(t_star, t));
 h = degree - s; 
 
 % Copy of influenced control points.
-P_ir = zeros(degree+1, 2, degree+1);
+P_ir = zeros(degree+1, size(control_points, 2), degree+1);
 P_ir((k-degree):(k-s), :, 1) = control_points((k-degree):(k-s), :);
 
 % Main De Boor algorithm.

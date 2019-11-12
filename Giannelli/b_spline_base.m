@@ -35,5 +35,3 @@ for i = 1 : length(t)-order
     end
     plot(steps, base_y, 'linewidth', 2);
 end
-
-

@@ -1,4 +1,4 @@
-% excercise_3:
+% EXCERCISE_3:
 %   Finds control points in the Bézier representation of the parametric 
 %   with curve with equations X(t)=1+t+t^2; Y(t)=t^3 and with t in [0, 1],
 %   display the control polygon and the relative Bézier curve.

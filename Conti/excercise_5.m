@@ -1,4 +1,4 @@
-% excercise_5:
+% EXCERCISE_5:
 %   Starting from a cubic Bézier curve defined by vertices V0, V1, V2, V3, 
 %   build grade l+3 Bézier curves, with 1>=1, whose control polygon is the
 %   polygon V0, V1, V2 -- l times -- V2, V3. Shows an examples.
@@ -83,7 +83,7 @@ for i = 0:l
     
     for j = 1 : num_points
         bezier_curve(j, :) = de_casteljau(control_points, degree + i, ...
-                                         steps(j));
+                                          steps(j));
     end
     order = iptnum2ordinal(i+1);
     plot(bezier_curve(:, 1), bezier_curve(:, 2), 'linewidth', 3, ...

@@ -1,4 +1,4 @@
-% excercise_6:
+% EXCERCISE_6:
 %   Takes as input the coordinates of the control polygon of a cubic
 %   Bézier curve use the degree elevation algorithm to find the control 
 %   polygons of this curve elevated to 4, 5, 6 degrees and draws them.

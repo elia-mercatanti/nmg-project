@@ -1,4 +1,4 @@
-% excercise_7:
+% EXCERCISE_7:
 %   Takes V0=(0,0,0), V1=(1,2,0), V2=(3,2,0), V3=(6,-1,0) as control points
 %   of a cubic Bézier curve and builds one second cubic Bézier curve that
 %   connects with continuity C^2 with the previus curve. Display the two 
@@ -62,7 +62,7 @@ if a ~= 0 || b~=1
 end
 
 % Set the figure window for drawing plots.
-fig = figure('Name','Exercise 7','NumberTitle','off');
+fig = figure('Name', 'Exercise 7', 'NumberTitle', 'off');
 fig.Position(3:4) = [800 600];
 movegui(fig, 'center');
 hold on;
@@ -77,14 +77,12 @@ xlim([left_limit_x right_limit_x]);
 ylim([left_limit_y right_limit_y]);
 
 % Draw the control points plots for the two Bézier curve.
-poi_plot_1 = plot(CP_1(:, 1), CP_1(:, 2), 'kx', ...
-          'MarkerSize', 10);
-pol_plot_1 = plot(CP_1(:, 1), CP_1(:, 2), '-o', ...
-          'linewidth', 1, 'color', '#0072BD');
-poi_plot_2 = plot(CP_2(:, 1), CP_2(:, 2), 'kx', ...
-          'MarkerSize', 10);
-pol_plot_2 = plot(CP_2(:, 1), CP_2(:, 2), '-o', ...
-          'linewidth', 1, 'color', '#D95319');
+poi_plot_1 = plot(CP_1(:, 1), CP_1(:, 2), 'kx', 'MarkerSize', 10);
+pol_plot_1 = plot(CP_1(:, 1), CP_1(:, 2), '-o', 'linewidth', 1, ...
+                  'color', '#0072BD');
+poi_plot_2 = plot(CP_2(:, 1), CP_2(:, 2), 'kx', 'MarkerSize', 10);
+pol_plot_2 = plot(CP_2(:, 1), CP_2(:, 2), '-o', 'linewidth', 1, ...
+                  'color', '#D95319');
       
 legend([poi_plot_1 pol_plot_1 pol_plot_2], {'Control Points', ...
        'Control Polygon - First Curve', ...

@@ -21,7 +21,7 @@ function [C_star] = de_casteljau(V, n, t_star)
 
     for k = 1 : n
         for i = 1 : n-k+1
-            V(i, :) = (1.0 - t_star)* V(i, :) + t_star*V(i+1, :);
+            V(i, :) = (1.0 - t_star)*V(i, :) + t_star*V(i+1, :);
         end
     end
     C_star = V(1, :);

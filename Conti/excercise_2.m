@@ -1,4 +1,4 @@
-% excercise_2:
+% EXCERCISE_2:
 %   Takes as input the coordinates of the control polygon and use de 
 %   Casteljau algorithm to visualize the relative Bézier curve.
 %

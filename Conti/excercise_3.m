@@ -105,4 +105,3 @@ for i = 1 : num_points
 end
 plot(bezier_curve(:, 1), bezier_curve(:, 2), 'linewidth', 3, 'color', ...
      '#D95319', 'DisplayName', 'Bézier Curve');
- 

@@ -51,15 +51,13 @@ for i = 1 : num_points
 end
 
 % Plot the b-spline surface.
-surface_matrix_x = reshape(surface_points(:, 1), num_points, num_points).';
-surface_matrix_y = reshape(surface_points(:, 2), num_points, num_points).';
-surface_matrix_z = reshape(surface_points(:, 3), num_points, num_points).';
-surf(surface_matrix_x, surface_matrix_y, surface_matrix_z);
+p_z = reshape(new_control_points(:, 3), k_1, k_2).';
+surf(surface_points(:, 1), surface_points(:, 2), surface_points(:, 3));
 hold on;
 grid on;
 
 % Draw the control polygon of the b-spline surface.
-plot3(p_x, p_y, p_z, 'b.--', 'linewidth', 2, 'MarkerSize', 25); 
-plot3(p_x.', p_y.', p_z.', 'b--', 'linewidth', 2);
+plot3(p_x, p_y, p_z, 'r.-', 'linewidth', 2, 'MarkerSize', 25); 
+plot3(p_x.', p_y.', p_z.', 'r-', 'linewidth', 2);
 axis tight;
 axis equal;

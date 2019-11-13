@@ -9,6 +9,10 @@ p_y = [4.5 4.5 4.5; 3.5 3.5 3.5; 1.5 1.5 1.5];
 p_z = [0 0 0;2.6 2.6 2.6; 0 0 0];
 k_1 = 3;
 k_2 = 3;
+% Transform control points into a single matrix for applying
+% transformations.
+new_control_points = [reshape(p_x.', [], 1), reshape(p_y.', [], 1), ...
+                      reshape(p_z.', [], 1)];
 t_1 = [0 0 0 1 1 1];
 t_2 = [0 0 0 1 1 1];
 num_points = 100;

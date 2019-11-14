@@ -1,6 +1,9 @@
 clear
 
 % Inputs.
+%p_x =   [4 2 0; 4 3 2; 4 3 2];
+%p_y =   [4 4 4; 2 2 2; 0 0 0];
+%p_z =   [0 0 0; 2 3 2; 0 0 0];
 p_x = [4.5 3.5 2.5; 4.5 3.5 2.5; 4.5 3.5 2.5];
 p_y = [4.5 4.5 4.5; 3.5 3.5 3.5; 1.5 1.5 1.5];
 p_z = [0 0 0;2.6 2.6 2.6; 0 0 0];
@@ -8,43 +11,54 @@ k_1 = 3;
 k_2 = 3;
 t_1 = [0 0 0 1 1 1];
 t_2 = [0 0 0 1 1 1];
-num_points = 100;
+num_steps = 50;
 
-% Initialization
-steps_1 = linspace(t_1(k_1), t_1(end-k_1+1), num_points);
-steps_2 = linspace(t_2(k_2), t_2(end-k_2+1), num_points);
+% Initialization.
+steps_1 = linspace(t_1(k_1), t_1(end-k_1+1), num_steps);
+steps_2 = linspace(t_2(k_2), t_2(end-k_2+1), num_steps);
 num_base1_elements = length(t_1) - k_1;
 num_base2_elements = length(t_2) - k_2; 
-base_1 = zeros(num_points, num_base1_elements);
-base_2 = zeros(num_points, num_base2_elements);
+base_1 = zeros(num_steps, num_base1_elements);
+base_2 = zeros(num_steps, num_base2_elements);
 
 % Get the first base.
-for i = 1 : num_points
+for i = 1 : num_steps
     for j = 1 : num_base1_elements
         base_1(i, j) = cox_de_boor(j, k_1, t_1, steps_1(i), k_1);
     end
 end
 
 % Get the second base.
-for i = 1 : num_points
+for i = 1 : num_steps
     for j = 1 : num_base2_elements
         base_2(i, j) = cox_de_boor(j, k_1, t_2, steps_2(i), k_2);
     end
 end
 
+% Set the figure window for drawing plots.
+fig = figure('Name', 'Affine Transformations on B-Spline Surface', ...
+             'NumberTitle', 'off');
+fig.Position(3:4) = [800 600];
+movegui(fig, 'center');
+
 % Draw the original b-spline surface.
 surf_x = base_1*p_x*base_2.';
 surf_y = base_1*p_y*base_2.';
 surf_z = base_1*p_z*base_2.';
-surf(surf_x , surf_y , surf_z);
+origin_surf_plot = surf(surf_x , surf_y , surf_z, 'FaceColor', 'r');
 hold on;
 grid on;
+xlabel('X');
+ylabel('Y');
+zlabel('Z');
+title('Affine Transformations on B-Spline Surfaces');
 
 % Draw the original control polygon of the b-spline surface.
-plot3(p_x, p_y, p_z, 'b.--', 'linewidth', 2, 'MarkerSize', 25); 
+origin_pol_plot = plot3(p_x, p_y, p_z, 'b.--', 'linewidth', 2, ...
+                        'MarkerSize', 25); 
 plot3(p_x.', p_y.', p_z.', 'b--', 'linewidth', 2);
 
-% Tranlation, rotatio and scale transformations.
+% Tranlation, rotation and scaling transformations.
 T = [4 1 1];
 R = [cos(pi/2) -sin(pi/2) 0; sin(pi/2) cos(pi/2) 0; 0 0 1];
 S = [0.8 0 0; 0 0.8 0; 0 0 0.8];
@@ -66,10 +80,12 @@ p_z = reshape(new_control_points(:, 3), k_1, k_2).';
 surf_x_trans = base_1*p_x*base_2.';
 surf_y_trans = base_1*p_y*base_2.';
 surf_z_trans = base_1*p_z*base_2.';
-surf(surf_x_trans, surf_y_trans, surf_z_trans);
+trasf_control_plot = surf(surf_x_trans, surf_y_trans, surf_z_trans, ...
+                          'FaceColor', 'b');
 
 % Draw the control polygon of the b-spline surface.
-plot3(p_x, p_y, p_z, 'r.-', 'linewidth', 2, 'MarkerSize', 25); 
+trasf_control_pol_plot = plot3(p_x, p_y, p_z, 'r.-', 'linewidth', 2, ...
+                               'MarkerSize', 25); 
 plot3(p_x.', p_y.', p_z.', 'r-', 'linewidth', 2);
 
 % Transform surface points matrices into a single matrix for applying
@@ -81,15 +97,23 @@ surface_points = [reshape(surf_x.', [], 1), reshape(surf_y.', [], 1), ...
 surface_points = (surface_points*R + T)*S;
 
 % Restore surface points in three matrices.
-surf_x = reshape(surface_points(:, 1), num_points, num_points).';
-surf_y = reshape(surface_points(:, 2), num_points, num_points).';
-surf_z = reshape(surface_points(:, 3), num_points, num_points).';
+surf_x = reshape(surface_points(:, 1), num_steps, num_steps).';
+surf_y = reshape(surface_points(:, 2), num_steps, num_steps).';
+surf_z = reshape(surface_points(:, 3), num_steps, num_steps).';
 
 % Draw the transformed b-spline surface.
-surf(surf_x , surf_y , surf_z, 'FaceAlpha', 0.5);
+trasf_surf_plot = surf(surf_x , surf_y , surf_z, 'FaceColor', 'g', ...
+                        'FaceAlpha', 0.5);
 
-% Draw the control polygon of the b-spline surface.
-plot3(p_x, p_y, p_z, 'g.--', 'linewidth', 2, 'MarkerSize', 25); 
-plot3(p_x.', p_y.', p_z.', 'g--', 'linewidth', 2);
+% Draw the control polygon of the b-spline surface and legend.
+trasf_surf_pol_plot = plot3(p_x, p_y, p_z, 'c.--', 'linewidth', 2, ...
+                            'MarkerSize', 25); 
+plot3(p_x.', p_y.', p_z.', 'c--', 'linewidth', 2);
 axis tight;
 axis equal;
+legend([origin_surf_plot origin_pol_plot(1) trasf_control_plot ...
+        trasf_control_pol_plot(1) trasf_surf_plot ...
+        trasf_surf_pol_plot(1)], {'Original B-spline Surface', ...
+        'Original Control Polygon', 'Transformations on Control Points',...
+        'First Transf. Control Polygon', 'Transformations on Surface', ...
+        'Second Transf. Control Polygon'}, 'Location', 'best');

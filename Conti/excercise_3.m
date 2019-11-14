@@ -101,7 +101,7 @@ end
 % Calculate and plot the Bézier curve using de Casteljau algorithm.
 bezier_curve = zeros(num_points, 2);
 for i = 1 : num_points
-    bezier_curve(i, :) = de_casteljau(control_points, degree, steps(i));
+    bezier_curve(i, :) = de_casteljau(control_points, steps(i));
 end
 plot(bezier_curve(:, 1), bezier_curve(:, 2), 'linewidth', 3, 'color', ...
      '#D95319', 'DisplayName', 'Bézier Curve');

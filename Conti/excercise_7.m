@@ -91,7 +91,7 @@ legend([poi_plot_1 pol_plot_1 pol_plot_2], {'Control Points', ...
 % Calculate and plot the first Bézier curve and control points.
 bezier_curve = zeros(num_points, 2);
 for i = 1 : num_points
-    bezier_curve(i,:) = de_casteljau(CP_1, degree, steps(i));
+    bezier_curve(i,:) = de_casteljau(CP_1, steps(i));
 end
 plot(bezier_curve(:,1), bezier_curve(:,2), 'linewidth', 3, 'color', ...
      '#0072BD', 'DisplayName', 'First Bézier Curve');
@@ -99,7 +99,7 @@ plot(bezier_curve(:,1), bezier_curve(:,2), 'linewidth', 3, 'color', ...
 % Calculate and plot the second Bézier curve and control points.
 bezier_curve = zeros(num_points, 2);
 for i = 1 : num_points
-    bezier_curve(i,:) = de_casteljau(CP_2, degree, steps(i));
+    bezier_curve(i,:) = de_casteljau(CP_2, steps(i));
 end
 plot(bezier_curve(:,1), bezier_curve(:,2), 'linewidth', 3, 'color', ...
      '#D95319', 'DisplayName', 'Second Bézier Curve');  

@@ -1,7 +1,8 @@
 function [y] = cox_de_boor(i, r, t, t_star, k)
     if r == 1
+        % Check even the last interval special case.
         if (t_star >= t(i) && t_star < t(i+1)) || ((t_star >= t(i) && ...
-            t_star <= t(i+1) && t_star == t(end) && i == length(t)-k)) % per controllare l'ultimo intervallo
+            t_star <= t(i+1) && t_star == t(end) && i == length(t)-k)) 
             y = 1;
         else
             y = 0;

@@ -12,14 +12,16 @@ control_points = [0.1 0.6; 0.3 0.9; 0.7 0.8; 0.8 0.5; 0.4 0.6];
 num_cp = size(control_points, 1);
 
 % Set the figure window for drawing plots.
-fig = figure('Name', 'Affine Transformation', 'NumberTitle', 'off');
+fig = figure('Name', 'B-spline Affine Transformations', 'NumberTitle', ...
+             'off');
 fig.Position(3:4) = [800 600];
 movegui(fig, 'center');
 hold on;
 grid on;
 xlabel('X');
 ylabel('Y');
-title('Affine Transformation');
+title(['B-spline Affine Transformations - Translation, Rotation and', ...
+      ' Scaling']);
 axes = gca;
 axes.XAxisLocation = 'origin';
 axes.YAxisLocation = 'origin';
@@ -41,9 +43,10 @@ for i = 1 : num_points
     curve(i, :) = de_boor_algorithm(t, steps(i), degree, control_points);
 end
 original_curve = curve;
-original_curve_plot = plot(curve(:, 1), curve(:, 2), 'linewidth', 3, 'color', '#D95319');
+original_curve_plot = plot(curve(:, 1), curve(:, 2), 'linewidth', 3, ...
+                           'color', '#D95319');
            
-% Tranlation, rotatio and scale transformations.
+% Tranlation, rotation and scaling transformations.
 T = [0.9 1];
 R = [cos(pi) -sin(pi); sin(pi) cos(pi)];
 S = [0.8 0; 0 0.8];
@@ -60,16 +63,15 @@ plot(control_points(:, 1), control_points(:, 2), '-o', 'linewidth', 1, ...
 for i = 1 : num_points
     curve(i, :) = de_boor_algorithm(t, steps(i), degree, control_points);
 end
-trasf_curve1_plot = plot(curve(:, 1), curve(:, 2), 'linewidth', 3, ...
+trasf_control_plot = plot(curve(:, 1), curve(:, 2), 'linewidth', 3, ...
                          'color', '#EDB120');
 
-% Transformation on B-Spline curve points.
+% Plot transformation on B-Spline curve points and legend.
 original_curve = (original_curve*R + T)*S;
-trasf_curve2_plot = plot(original_curve(:, 1), original_curve(:, 2), ...
+trasf_curve_plot = plot(original_curve(:, 1), original_curve(:, 2), ...
                          '--', 'linewidth', 3, 'color', '#7E2F8E');
-
 legend([poi_plot pol_plot original_curve_plot ...
-        trasf_curve1_plot trasf_curve2_plot], 'Control Points', ...
-        'Control Polygon', 'Original B-Spline Curve', ...
-        'Control Points Transf.', 'Curve Transf.', ...
-        'Location', 'best');
+        trasf_control_plot trasf_curve_plot], 'Control Points', ...
+        'Control Polygons', 'Original B-Spline Curve', ...
+        'Transformations on Control Points', 'Transformations on Curve',...
+        'Location', 'southeast');

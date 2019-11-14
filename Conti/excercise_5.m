@@ -82,8 +82,7 @@ for i = 0:l
     end
     
     for j = 1 : num_points
-        bezier_curve(j, :) = de_casteljau(control_points, degree + i, ...
-                                          steps(j));
+        bezier_curve(j, :) = de_casteljau(control_points, steps(j));
     end
     order = iptnum2ordinal(i+1);
     plot(bezier_curve(:, 1), bezier_curve(:, 2), 'linewidth', 3, ...

@@ -51,14 +51,14 @@ control_points = zeros(num_cp, 2);
 for i = 1 : num_cp
     [x, y] = ginput(1);
     control_points(i, :) = [x, y];
-    plot_1 = plot(control_points(i, 1), control_points(i, 2), 'kx', ...
-         'MarkerSize', 10);
+    plot_1 = plot(control_points(i, 1), control_points(i, 2), 'k.', ...
+         'MarkerSize', 25);
     if i ~= 1
         plot_2 = plot(control_points(i-1:i,1), control_points(i-1:i,2), ...
-             '-o', 'linewidth', 1, 'color', '#0072BD');
+             '-', 'linewidth', 1, 'color', '#0072BD');
     end
 end
-legend([plot_1 plot_2], {'Control Points', 'Control Polygon'}, ...
+legend([plot_1 plot_2], {'Control Point', 'Control Polygon'}, ...
        'Location', 'best');
 
 % Calculate the parameter (t) steps for drawing the Bézier curve.
@@ -70,7 +70,7 @@ end
 % Calculate and plot the Bézier curve using de Casteljau algorithm.
 bezier_curve = zeros(num_points, 2);
 for i = 1 : num_points
-    bezier_curve(i, :) = de_casteljau(control_points, num_cp-1, steps(i));
+    bezier_curve(i, :) = de_casteljau(control_points, steps(i));
 end
 plot(bezier_curve(:, 1), bezier_curve(:, 2), 'linewidth', 3, 'color', ...
      '#D95319', 'DisplayName', 'Bézier Curve');

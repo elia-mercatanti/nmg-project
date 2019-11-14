@@ -97,15 +97,14 @@ legend([poi_plot pol_plot pol_plot_1 pol_plot_2],{'Control Points', ...
 % Calculate and plot the first Bézier curve using de Casteljau algorithm.
 bezier_curve = zeros(num_points, 2);
 for i = 1 : num_points
-    bezier_curve(i, :) = de_casteljau(C1, degree, steps_1(i)/t_star);
+    bezier_curve(i, :) = de_casteljau(C1, steps_1(i)/t_star);
 end
 plot(bezier_curve(:, 1), bezier_curve(:, 2), 'linewidth', 3, 'color', ...
      '#D95319', 'DisplayName', 'First Bézier Curve');  
  
 % Calculate and plot the second Bézier curve using de Casteljau algorithm.
 for i = 1 : num_points
-    bezier_curve(i, :) = de_casteljau(C2, degree, (steps_2(i)-t_star)/ ...
-                                      (1-t_star));
+    bezier_curve(i, :) = de_casteljau(C2, (steps_2(i)-t_star)/(1-t_star));
 end
 plot(bezier_curve(:, 1), bezier_curve(:, 2), 'linewidth', 3, 'color', ...
      '#77AC30', 'DisplayName', 'Second Bézier Curve');  

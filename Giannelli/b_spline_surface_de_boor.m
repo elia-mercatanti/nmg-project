@@ -4,9 +4,9 @@ clear
 %p_x = [4 3 2; 4 3 2; 4 2 0];
 %p_y = [4 4 4; 2 2 2; 0 0 0];
 %p_z = [0 0 0; 2 3 2; 0 0 0];
-p_x = [4.5 3.5 2.5; 4.5 3.5 2.5; 4.5 3.5 2.5];
-p_y = [4.5 4.5 4.5; 3.5   3.5  3.5; 1.5 1.5 1.5];
-p_z = [0    0   0;   2.6 2.6 2.6; 0 0 0];
+p_x = [4.5 3.5 2.5; 4.5 3.5 2.5; 4.5 3.5 2.5; 4.5 3.5 2.5];
+p_y = [4.5 4.5 4.5; 3.5 3.5 3.5; 1.5 1.5 1.5; 1.5 1.5 1.5];
+p_z = [0 0 0;2.6 2.6 2.6; 0 0 0; 0 0 0];
 control_points = [reshape(p_x.', [], 1), reshape(p_y.', [], 1), ...
                   reshape(p_z.', [], 1)];
 k_1 = 3;
@@ -20,22 +20,6 @@ steps_1 = linspace(t_1(k_1), t_1(end-k_1+1), num_steps);
 steps_2 = linspace(t_2(k_2), t_2(end-k_2+1), num_steps);
 num_base1_elements = length(t_1) - k_1;
 num_base2_elements = length(t_2) - k_2; 
-first_base = zeros(num_steps, num_base1_elements);
-second_base = zeros(num_steps, num_base2_elements);
-
-% Get the first base.
-for i = 1 : num_steps
-    for j = 1 : num_base1_elements
-        first_base(i, j) = cox_de_boor(j, k_1, t_1, steps_1(i), k_1);
-    end
-end
-
-% Get the second base.
-for i = 1 : num_steps
-    for j = 1 : num_base2_elements
-        second_base(i, j) = cox_de_boor(j, k_1, t_2, steps_2(i), k_2);
-    end
-end
 
 % Calculate with de boor every point of the b-spline surface.
 surface_points = zeros(num_steps*num_steps, 3);

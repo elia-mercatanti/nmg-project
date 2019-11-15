@@ -33,7 +33,7 @@ end
 % Get the second base.
 for i = 1 : num_steps
     for j = 1 : num_base2_elements
-        second_base(i, j) = cox_de_boor(j, k_1, t_2, steps_2(i), k_2);
+        second_base(i, j) = cox_de_boor(j, k_2, t_2, steps_2(i), k_2);
     end
 end
 

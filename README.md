@@ -38,8 +38,8 @@ this curve elevated to 4, 5, 6 degrees and draws them.
 ### Excercise 7
 Takes V0=(0,0,0), V1=(1,2,0), V2=(3,2,0), V3 =(6,-1,0) as control points
 of a cubic Bézier curve and builds one second cubic Bézier curve that
-connects with continuity C^2 with the previus curve. Display the two curves
-and their respective control polygons.
+connects with continuity C^2 with the previus curve. Display the two 
+curves and their respective control polygons.
 
 ## Prof. Giannelli Part - B-Spline Curves ans Surfaces
 

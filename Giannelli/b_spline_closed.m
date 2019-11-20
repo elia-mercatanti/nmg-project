@@ -32,7 +32,7 @@ axes.YAxisLocation = 'origin';
 xlim([left_limit_x right_limit_x]);
 ylim([left_limit_y right_limit_y]);
 
-% Ask user to choose control vertices for the Bézier curve and plot them.
+% Ask user to choose control vertices for the Bezier curve and plot them.
 control_points = zeros(num_cp + degree + 2, 2);
 for i = 1 : num_cp + 1
     if i > num_cp
@@ -60,7 +60,7 @@ new_poi_plot = plot(control_points(num_cp+2: end, 1), ...
                     control_points(num_cp+2: end, 2), 'g.', ...
                     'MarkerSize', 20);
 
-% Calculate the parameter (t) steps for drawing the Bézier curves.
+% Calculate the parameter (t) steps for drawing the Bezier curves.
 steps = linspace(t(degree+1), t(end-degree), num_points);
 
 % Calculate and plot the B-Spline curve using De Boor algorithm.

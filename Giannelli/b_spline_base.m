@@ -34,7 +34,7 @@ axes.XAxisLocation = 'origin';
 axes.YAxisLocation = 'origin';
 
 % Initialization
-steps = linspace(t(order), t(end-order+1), num_points);
+steps = linspace(t(1), t(end), num_points);
 base_y = zeros(1, num_points);
 
 for i = 1 : length(t) - order

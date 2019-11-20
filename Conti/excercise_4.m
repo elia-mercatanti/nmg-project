@@ -79,7 +79,7 @@ if a ~= 0 || b ~= 1
 end 
 
 % Run de Casteljau algorithm to draw the two curves control polygons.
-[C1, C2] = de_casteljau_subdivision(control_points, degree, t_star);
+[C1, C2] = de_casteljau_subdivision(control_points, t_star);
 poi_plot = plot(control_points(:, 1), control_points(:, 2), 'kx', ...
           'MarkerSize', 10);
 pol_plot = plot(control_points(:, 1), control_points(:, 2), '-o', ...

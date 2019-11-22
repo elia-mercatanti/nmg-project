@@ -20,6 +20,7 @@ function [curve_point] = de_casteljau(control_points, t_star)
 % Authors: Elia Mercatanti, Marco Calamai
 % Emails: elia.mercatanti@stud.unifi.it, marco.calamai@stud.unifi.it
 
+    % Checks arguments passed to the function.
     arguments
         control_points (:, :) {validateattributes(control_points, ...
                                {'numeric'}, {'finite', 'nonempty'})} 
@@ -27,8 +28,10 @@ function [curve_point] = de_casteljau(control_points, t_star)
                                    '<=', 1, 'finite', 'scalar'})} 
     end
     
+    % Calculate the degree of the Bézier curve.
     degree = size(control_points, 1) - 1;
     
+    % Main de Casteljau algorithm.
     for k = 1 : degree
         for i = 1 : degree-k+1
             control_points(i, :) = (1.0 - t_star)*control_points(i, :) ...

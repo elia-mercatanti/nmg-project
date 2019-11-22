@@ -24,6 +24,7 @@ function [cp_first_curve, cp_second_curve] = ...
 % Authors: Elia Mercatanti, Marco Calamai
 % Emails: elia.mercatanti@stud.unifi.it, marco.calamai@stud.unifi.it
     
+    % Checks arguments passed to the function.
     arguments
         control_points (:, :) {validateattributes(control_points, ...
                                {'numeric'}, {'finite', 'nonempty'})} 
@@ -31,13 +32,16 @@ function [cp_first_curve, cp_second_curve] = ...
                                    '<=', 1, 'finite', 'scalar'})} 
     end
     
+    % Calculate the degree of the Bézier curve.
     degree = size(control_points, 1) - 1;
     
+    % Initialization of the control points for the two curves.
     cp_first_curve = zeros(degree+1, size(control_points, 2));
     cp_second_curve = cp_first_curve;
     cp_first_curve(1, :) = control_points(1, :);
     cp_second_curve(end, :) = control_points(end, :);
     
+    % Main de Casteljau based subdivision algorithm.
     for k = 1 : degree
         for i = 1 : degree-k+1
             control_points(i, :) = (1.0-t_star)*control_points(i, :) + ...

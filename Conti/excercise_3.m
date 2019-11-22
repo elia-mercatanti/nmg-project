@@ -12,8 +12,8 @@
 clear
 
 % Ask user for input.
-prompt = {'Left Limit X Axis:', 'Right Limit X Axis:', ...
-          'Left Limit Y Axis:', 'Right Limit Y Axis:', ...
+prompt = {'X Axis Left Limit:', 'X Axis Right Limit:', ...
+          'Y Axis Left Limit:', 'Y Axis Right Limit:', ...
           'Number of points of the Bézier curve to draw:', ...
           'Left Parameter t Range (a):', 'Right Parameter t Range (b):'};
 inputs_title = 'Inputs to Draw the Bézier Curve';
@@ -22,11 +22,11 @@ default_inputs = {'0.5', '3.5', '-0.5', '1.5', '1000', '0', '1'};
 inputs = inputdlg(prompt, inputs_title, dimensions, default_inputs);
 
 % Retrive inputs.
-left_limit_x = str2double(inputs{1});
-right_limit_x = str2double(inputs{2});
-left_limit_y = str2double(inputs{3});
-right_limit_y = str2double(inputs{4});
-num_points = str2double(inputs{5});
+x_left_limit = str2double(inputs{1});
+x_right_limit = str2double(inputs{2});
+y_left_limit = str2double(inputs{3});
+y_right_limit = str2double(inputs{4});
+num_curve_points = str2double(inputs{5});
 a = str2double(inputs{6});
 b = str2double(inputs{7});
 
@@ -81,26 +81,26 @@ title('Bézier Curve and Control Polygon');
 axes = gca;
 axes.XAxisLocation = 'origin';
 axes.YAxisLocation = 'origin';
-xlim([left_limit_x right_limit_x]);
-ylim([left_limit_y right_limit_y]);
+xlim([x_left_limit x_right_limit]);
+ylim([y_left_limit y_right_limit]);
 
 % Plot control polygon.
-plot_1 = plot(control_points(:, 1), control_points(:, 2), 'kx', ...
-          'MarkerSize', 10);
-plot_2 = plot(control_points(:, 1), control_points(:, 2), '-o', ...
+poi_plot = plot(control_points(:, 1), control_points(:, 2), 'k.', ...
+          'MarkerSize', 20);
+pol_plot = plot(control_points(:, 1), control_points(:, 2), '-', ...
           'linewidth', 1, 'color', '#0072BD');
-legend([plot_1 plot_2],{'Control Points', 'Control Polygon'}, ...
+legend([poi_plot pol_plot],{'Control Points', 'Control Polygon'}, ...
        'Location', 'northwest')
 
 % Calculate the parameter (t) steps for drawing the Bézier curve.
-steps = linspace(a, b, num_points);
+steps = linspace(a, b, num_curve_points);
 if a ~= 0 || b ~= 1
     steps = (steps-a) / (b-a);
 end
 
 % Calculate and plot the Bézier curve using de Casteljau algorithm.
-bezier_curve = zeros(num_points, 2);
-for i = 1 : num_points
+bezier_curve = zeros(num_curve_points, 2);
+for i = 1 : num_curve_points
     bezier_curve(i, :) = de_casteljau(control_points, steps(i));
 end
 plot(bezier_curve(:, 1), bezier_curve(:, 2), 'linewidth', 3, 'color', ...

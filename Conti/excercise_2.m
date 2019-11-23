@@ -10,7 +10,7 @@
 
 clear
 
-% Ask user for input.
+% Ask user for inputs.
 prompt = {'X Axis Left Limit:', 'X Axis Right Limit:', ...
           'Y Axis Left Limit:', 'Y Axis Right Limit:', ...
           'Number of Control Points:', ...
@@ -49,8 +49,7 @@ ylim([y_left_limit y_right_limit]);
 % Ask user to choose control vertices for the Bézier curve and plot them.
 control_points = zeros(num_control_points, 2);
 for i = 1 : num_control_points
-    [x, y] = ginput(1);
-    control_points(i, :) = [x, y];
+    control_points(i, :) = ginput(1);
     poi_plot = plot(control_points(i, 1), control_points(i, 2), 'k.', ...
                     'MarkerSize', 20);
     if i > 1

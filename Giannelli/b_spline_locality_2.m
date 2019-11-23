@@ -1,16 +1,23 @@
+% B_SPLINE_LOCALITY_2:
+%
+% Requires:
+%   - de_boor_algorithm.m
+
+% Authors: Elia Mercatanti, Marco Calamai
+% Emails: elia.mercatanti@stud.unifi.it, marco.calamai@stud.unifi.it
+
 clear
 
-% Inputs
-left_limit_x = 0;
-right_limit_x = 1;
-left_limit_y = 0;
-right_limit_y = 1;
-num_points = 1000;
-t = [0 0 0 0 0.25 0.25 0.5 0.5 0.75 0.75 1 1 1 1];
+% Retrive inputs.
+x_left_limit = 0;
+x_right_limit = 1;
+y_left_limit = 0;
+y_right_limit = 1;
+num_curve_points = 1000;
+knot_vector = [0 0 0 0 0.25 0.25 0.5 0.5 0.75 0.75 1 1 1 1];
 degree = 3;
 control_points = [0.1, 0.1; 0.3, 0.4; 0.1, 0.6; 0.3, 0.9; 0.5, 0.8; ...
                   0.8, 0.9; 0.9, 0.6; 0.9, 0.3; 0.8, 0.2; 0.7, 0.1 ];
-num_cp = size(control_points, 1);
 
 % Set the figure window for drawing plots.
 fig = figure('Name', 'Locality Property 2', 'NumberTitle', 'off');
@@ -24,11 +31,12 @@ title('Locality Property 1');
 axes = gca;
 axes.XAxisLocation = 'origin';
 axes.YAxisLocation = 'origin';
-xlim([left_limit_x right_limit_x]);
-ylim([left_limit_y right_limit_y]);
+xlim([x_left_limit x_right_limit]);
+ylim([y_left_limit y_right_limit]);
 
 % Calculate the parameter (t) steps for drawing the B-Spline curves.
-steps = linspace(t(degree+1), t(end-degree), num_points);
+steps = linspace(knot_vector(degree+1), knot_vector(end-degree), ...
+                 num_curve_points);
 
 % Plot control points and control polygon of the original curve.
 plot(control_points(:, 1), control_points(:, 2), 'kx', 'MarkerSize', 10);
@@ -36,9 +44,10 @@ plot(control_points(:, 1), control_points(:, 2), '-', 'linewidth', 1, ...
      'color', '#0072BD');
 
 % Calculate and plot the original B-Spline curve using De Boor algorithm.
-curve = zeros(num_points, 2);
-for i = 1 : num_points
-    curve(i, :) = de_boor_algorithm(t, steps(i), degree, control_points);
+curve = zeros(num_curve_points, 2);
+for i = 1 : num_curve_points
+    curve(i, :) = de_boor_algorithm(control_points, degree, ...
+                                    knot_vector, steps(i));
 end
 plot(curve(:, 1), curve(:, 2), 'linewidth', 3, 'color', '#D95319');
 
@@ -52,17 +61,20 @@ plot(control_points(:, 1), control_points(:, 2), '-.o', 'linewidth', 1, ...
      'color', '#EDB120', 'MarkerEdgeColor', 'k', 'MarkerSize', 10);
 
 % Calculate and plot the modified B-Spline curve.
-for i = 1 : num_points
-    curve(i, :) = de_boor_algorithm(t, steps(i), degree, control_points);
+for i = 1 : num_curve_points
+    curve(i, :) = de_boor_algorithm(control_points, degree, ...
+                                    knot_vector, steps(i));
 end
 plot(curve(:, 1), curve(:, 2), '--', 'linewidth', 3, 'color', '#77AC30');
 
-% Draw lines between modifications.
-left_line = de_boor_algorithm(t, t(r), degree, control_points);
-right_line= de_boor_algorithm(t, t(r+1), degree, control_points);
-plot([left_line(1) left_line(1)], [left_limit_y right_limit_y], 'k', ...
+% Plot lines for highlighting the untouched interval.
+left_line = de_boor_algorithm(control_points, degree, knot_vector, ...
+                              knot_vector(r));
+right_line= de_boor_algorithm(control_points, degree, knot_vector, ...
+                              knot_vector(r+1));
+plot([left_line(1) left_line(1)], [y_left_limit y_right_limit], 'k', ...
      'linewidth', 2)
-plot([right_line(1) right_line(1)], [left_limit_y right_limit_y], 'k', ...
+plot([right_line(1) right_line(1)], [y_left_limit y_right_limit], 'k', ...
       'linewidth', 2)
 legend({'Control Points', 'Original Control Polygon', ...
         'Original B-Spline Curve', 'Modified Control Polygon', ...

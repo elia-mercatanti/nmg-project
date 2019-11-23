@@ -16,6 +16,7 @@
 \usepackage{algorithmic}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
+\usepackage{amssymb}
 
 \graphicspath{{./images/}}
 
@@ -64,14 +65,14 @@ La figura \ref{fig:BSplineinBaseExample} invece mostra un esempio di base B-SPli
 \begin{figure}[!]
 	\centering
 	\caption{Esempio di base con t = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1] e k=6}
-	\includegraphics[scale=0.55]{plot_bezier_base.eps}
+	\includegraphics[scale=0.7]{bezier_base_plot.eps}
 	\label{fig:BernsteinBaseExample}
 \end{figure}
 
 \begin{figure}[!]
 	\centering
 	\caption{Esempio di base con t = [1, 1, 2, 3, 4, 5, 6, 6] e k= 4}
-	\includegraphics[scale=0.55]{plot_b-spline_base.eps}
+	\includegraphics[scale=0.7]{b-spline_base_plot.eps}
 	\label{fig:BSplineinBaseExample}
 \end{figure}
 
@@ -137,7 +138,7 @@ Nello Script Matlab \ref{code:transAffCurve} è stata inizialmente definita e di
 \begin{figure}[!]
 	\centering
 	\caption{Trasformazioni Affini di una Curva B-spline}
-	\includegraphics[scale=0.55]{plot_curve_affine_trans.eps}
+	\includegraphics[scale=0.7]{curve_affine_trans_plot.eps}
 	\label{fig:transAffCurve}
 \end{figure}
 
@@ -154,14 +155,14 @@ Negli script \ref{code:locality} e \ref{code:locality2} viene mostrata la propri
 \begin{figure}[h!]
 	\centering
 	\caption{B-spline Località}
-	\includegraphics[scale=0.55]{plot_locality.eps}
+	\includegraphics[scale=0.7]{locality_plot.eps}
 	\label{fig:locality}
 \end{figure}
 
 \begin{figure}[!]
 	\centering
 	\caption{B-spline Località 2}
-	\includegraphics[scale=0.55]{plot_locality_2.eps}
+	\includegraphics[scale=0.7]{locality_2_plot.eps}
 	\label{fig:locality2}
 \end{figure}
 
@@ -183,21 +184,17 @@ Nella figura \ref{fig:vardimcurve} sono raffigurati quattro esempi risultanti da
 \begin{figure}
 	\begin{subfigure}{6cm}
 		\centering 
-		\includegraphics[width=6cm]{plot_variation_diminiscing_1.eps}
-		%\caption{Caption text 1}
+		\includegraphics[width=6cm]{variation_diminiscing_1_plot.eps}
 	\end{subfigure}
 	\begin{subfigure}{6cm}
-		\centering\includegraphics[width=6cm]{plot_variation_diminiscing_2.eps}
-		%\caption{Caption text 2}
+		\centering\includegraphics[width=6cm]{variation_diminiscing_2_plot.eps}
 	\end{subfigure}
 	
 	\begin{subfigure}{6cm}
-		\centering\includegraphics[width=6cm]{plot_variation_diminiscing_3.eps}
-		%\caption{Caption text 3}
+		\centering\includegraphics[width=6cm]{variation_diminiscing_3_plot.eps}
 	\end{subfigure}
 	\begin{subfigure}{6cm}
-		\centering\includegraphics[width=6cm]{plot_variation_diminiscing_4.eps}
-		%\caption{Caption text 4}
+		\centering\includegraphics[width=6cm]{variation_diminiscing_4_plot.eps}
 	\end{subfigure}
 	\caption{Variation diminishing, quattro esempi di rette}
 	\label{fig:vardimcurve}
@@ -206,7 +203,7 @@ Nella figura \ref{fig:vardimcurve} sono raffigurati quattro esempi risultanti da
 
 \lstinputlisting[label=code:BSplineCurveVariationDiminishing, style=Matlab-editor, caption=Variation diminishing, basicstyle=\footnotesize\ttfamily]{../b_spline_curve_variation_diminiscing.m}
 
-\subsection{Rappresentazione di curve B-SPline chiuse}
+\subsection{Rappresentazione di curve B-Spline chiuse}
 Siano $\mathbf{d}_1,\dots \mathbf{d}_m$ i vertici di controllo del poligono chiuso (con $\mathbf{d}_1 = \mathbf{d}_m$). 
 Per definire una curva B-SPline chiusa di ordine $k$, si sceglie la partizione nodale $$\mathbf{t} = \left[ \frac{-k}{m-1} : \frac{1}{m-1} : \frac{k+m-1}{m-1} \right]$$
 e si estende il poligono di controllo  aggiungendo i vertici $$\mathbf{d}_{m+1} = \mathbf{d}_2,\mathbf{d}_{m+2} = \mathbf{d}_3, \dots, \mathbf{d}_{m+k-1} = \mathbf{d}_k, \mathbf{d}_{m+k} = \mathbf{d}_{k+1} $$
@@ -218,8 +215,107 @@ Lo script Matlab \ref{code:BSplineClosed}, dati in input il grado della curva ed
 \begin{figure}[!]
 	\centering
 	\caption{Esempio di B-spline Chiusa}
-	\includegraphics[scale=0.55]{plot_closed.eps}
+	\includegraphics[scale=0.7]{closed_plot.eps}
 	\label{fig:BSplineClosed}
+\end{figure}
+
+\section{Le superfici  B-Spline }
+
+\subsection{Forma implicita e parametrica}
+
+Una superficie può essere rappresentata mediante equazione implicita:
+$$f(x,y,z) = 0$$
+o parametrica:
+$$\mathbf{X}(u, v) = \begin{pmatrix}
+x(u, v) \\
+y(u, v) \\
+z(u, v)
+\end{pmatrix}$$
+con $u, v \in [a, b] \subset \mathbb{R}^2$.
+\subsection{Superfici tensor-product }
+
+Siano $\{B^{A}_{0}(u), \dots, B^{A}_{n}(u) \}$, $\{ B^{B}_{0}(v), \dots, B^{B}_{m}(v) \}$
+due insiemi di funzioni linearmente indipendenti definiti sui due intervalli della retta reale
+$$ I_A = [a_A, b_A],  I_B = [a_B, b_B]$$
+con i quali si possono definire i due spazi di funzioni monovariate
+$$S_1 = < B^{A}_{0}(u), \dots, B^{A}_{n}(u) > \qquad S_2 = < B^{B}_{0}(v), \dots, B^{B}_{m}(v) >$$
+Lo spazio tensor-product
+$S1 \otimes S2$
+dei due spazi $S1, S2$ è lo spazio delle funzioni bivariate definite sul rettangolo
+$R:= I_A \times I_B$
+che sono combinazioni lineari delle funzioni prodotto
+$B^{A}_{i}(u) B^{A}_{i}(v)$
+al variare di $i$ da $0$ a $n$ e $j$ da $0$ a $m$.
+$$S_1 \otimes S_2 = \left\{ f : \mathbb{R} \rightarrow \mathbb{R}: f(u, v) = \sum_{i = 0}^{n}\sum_{j = 0}^{m} c_{i,j}B^A_i(u)B^B_j(v) \right\}$$
+con $c_{i,j} \in \mathbb{R}, i=0,\dots, n, j=0,\dots,m$.\\
+La superficie parametrica tensor-product (patch tensor-product) è definita come
+$$\mathbf{X}(u, v) = \sum_{i = 0}^{n} \sum_{j = 0}^{m} \mathbf{b}_{i, j} B^{n}_{i}(u)B_{j}^{m}(v) $$
+a partire da un reticolo di (n + 1)(m + 1) punti di controllo.\\
+Siano $U = \{u_0, \dots, u_{n+k}  \}, V = \{ v_o, \dots, v_{m+l}   \}$ due vettori estesi di nodi associati agli intervalli $[a,b] = \{u_{k-1}, \dots, u_{n+1}   \}, [c,d] = \{ v_{l-1}, v_{m+1}\}$, la superficie tensor-product B-Spline $$\mathbf{X}(u, v) = \sum_{i = 0}^{n} \sum_{j = 0}^{m} \mathbf{d}_{i, j} N_{i,k}(u)N_{j,l}(v) $$
+con $(u,v) \in [a,b] \times [c,d]$ è definita a partire da $(n+1)(m+1) $ punti di controllo di de Boor $\mathbf{d}_{i,j}, i=0,\dots, n, j=0, \dots, m$.\\
+Nello script Matlab \ref{code:BSpline_base_surface} è stato implementato il calcolo e rappresentazione di basi B-Spline di superfici dati in input i gradi delle due basi e i due vettori di nodi utilizzando la definizione di superficie tensor-product vista sopra e calcolando gli elementi delle basi mediante \textit{Cox-de Boor} come visto precedentemente per le curve.\\
+In figura \ref{fig:BSplineBaseSurface} è mostrato un esempio di base B-Spline generata dallo script \ref{code:BSpline_base_surface}, fissati $n = m= 2$ e vettori dei nodi $t_1 = t_2 =[0, 0, 0, 1, 1, 1]$.
+
+
+\lstinputlisting[label=code:BSpline_base_surface, style=Matlab-editor, caption=Base delle superfici B-Spline, basicstyle =\footnotesize\ttfamily ]{../b_spline_surface_base.m}
+\begin{figure}[h!]
+	\centering
+	\caption{Base superficie B-Spline}
+	\includegraphics[scale=0.7]{surface_base_plot.eps}
+	\label{fig:BSplineBaseSurface}
+\end{figure}
+Nello script \ref{code:BSpline_surface} e relativa immagine \ref{fig:BSpline_Surface} è stata rappresentata una curva B-Spline utilizzando la definizione di superficie tensor-product vista in precedenza. Sono state inoltre rappresentate le curve di bordo della superficie. I bordi di una superficie B-Spline sono definiti come:
+$$\mathbf{X}(a,v) = \sum_{j=0}^{m} \mathbf{d}_{0,j}N_{j, l}(v) \quad \mathbf{X}(b,v) = \sum_{j=0}^{m} \mathbf{d}_{n,j}N_{j,l}(v)$$
+$$\mathbf{X}(u, c) = \sum_{i=0}^{n} \mathbf{d}_{i,0}N_{i,k}(u) \quad \mathbf{X}(u,d) = \sum_{i=0}^{n} \mathbf{d}_{i, m}N_{i,k}(u)$$
+
+\lstinputlisting[label=code:BSpline_surface, style=Matlab-editor, caption= Superficie B-Spline, basicstyle =\footnotesize\ttfamily ]{../b_spline_surface_tensor_product.m}
+
+
+\begin{figure}[h!]
+	\centering
+	\caption{Superficie B-Spline e relative curve di bordo}
+	\includegraphics[scale=0.7]{surface_tensor_product_plot.eps}
+	\label{fig:BSpline_Surface}
+\end{figure}
+
+\subsection{Proprietà di invarianza per trasformazioni affini}
+Anche le superfici B-SPline godono della proprietà di invarianza per trasformazioni affini vista in precedenza per le curve. L’importanza pratica di questa proprietà è la seguente: supponiamo di aver disegnato una superficie e di volerle
+applicare una certa trasformazione affine (rotazione, traslazione, scala, ...). Il modo più semplice di procedere è 
+applicare ai vertici di controllo la trasformazione affine desiderata e poi ridisegnare la curva.
+Nello script Matlab \ref{code:BSplineSurfaceAffineTrans} è stata inizialmente definita e disegnata una superficie B-Spline e successivamente applicata una trasformazione affine. In particolare, sono state applicate in quest'ordine, una rotazione, traslazione e scalatura inizialmente ai vertici di controllo e successivamente direttamente sulla curva originale, ottenendo la stessa B-spline come mostrato in figura \ref{fig:BSplineSurfaceAffineTrans} .
+La proprietà di invarianza per trasformazioni affini viene confermata dal fatto che le due superfici trasformate combaciano.
+
+\lstinputlisting[label=code:BSplineSurfaceAffineTrans, style=Matlab-editor, caption= Trasformazione affine superficie B-Spline, basicstyle =\footnotesize\ttfamily ]{../b_spline_surface_affine_trans.m}
+
+\begin{figure}[h!]
+	\centering
+	\caption{Risultato di una trasformazione affine applicata ad una superficie B-Spline}
+	\includegraphics[scale=0.7]{surface_affine_trans_plot.eps}
+	\label{fig:BSplineSurfaceAffineTrans}
+\end{figure}
+
+\subsection{Algoritmo di de Boor}
+L'algoritmo di de-Boor può essere esteso per calcolare anche le superfici B-SPline. Più precisamente,  l'algoritmo può essere applicato diverse volte, fino a che non si ottiene il punto corrispondente sulla superficie B-Spline $p(u,v)$ dato $(u,v)$. Dato quindi:
+$$p(u, v) = \sum_{i = 0}^{n} \sum_{j = 0}^{m}  N_{i,k}(u)N_{j,l}(v) \mathbf{d}_{i, j} $$
+Invece di calcolare la superficie effettuando le operazioni in cascata, possiamo porre:\\
+$$q_i(v) = \sum_{j = 0}^{m}  N_{j,l}(v) \mathbf{d}_{i, j} $$
+Come si può notare, $q_i(v)$ è un punto sulla curva B-Spline definita dai punti di controllo $p_{i,0},p_{i,1}, \dots, p_{i,m}$.
+A questo punto, si può utilizzare l'algoritmo di de Boor per calcolare $q_i$ per ogni $i$.\\
+Si ottiene quindi 
+$$P(u,v) = \sum_{i = 0}^{n}  N_{i,k}(u) q_i(v)$$
+Possiamo quindi utilizzare nuovamente utilizzare l'algoritmo di de Boor.\\
+Quindi, riassumendo, quello che si fa è applicare $m$ volte l'algoritmo di de Boor per calcolare $q_i(v)$ per ogni $i$ e poi altre $n$ volte per calcolare $p(u,v)$ per ogni $j$.
+Lo script \ref{code:De_Boor_Algorithm_Surface} implementa l'algoritmo di de Boor modificato per calcolare le superfici B-Spline come spiegato sopra, mentre nello script \ref{code:BSpline_surface_DeBoor} è stata rappresentata mediante l'algoritmo di de Boor la superficie B-Spline vista in precedenza. Il risultato di quest'ultimo è mostrato in figura \ref{fig:BSpline_surface_DeBoor}.
+
+
+\lstinputlisting[label=code:De_Boor_Algorithm_Surface, style=Matlab-editor, caption= Algoritmo di de Boor per le superfici B-Spline, basicstyle =\footnotesize\ttfamily ]{../de_boor_algorithm_surface.m}
+
+\lstinputlisting[label=code:BSpline_surface_DeBoor, style=Matlab-editor, caption= Rappresentazione superficie B-Spline mediante algoritmo di de Boor =\footnotesize\ttfamily ]{../b_spline_surface_de_boor.m}
+\begin{figure}[h!]
+	\centering
+	\caption{Rappresentazione superficie B-Spline mediante algoritmo di de Boor}
+	\includegraphics[scale=0.7]{surface_de_boor_plot.eps}
+	\label{fig:BSpline_surface_DeBoor}
 \end{figure}
 
 \end{document}          

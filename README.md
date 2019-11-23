@@ -43,6 +43,11 @@ curves and their respective control polygons.
 
 ## Prof. Giannelli Part - B-Spline Curves ans Surfaces
 
+### B-Spline Base
+Takes as input the order and a knot vector to evaluate and plot all
+elements of the relative B-Spline base, using Cox-de Boor recursion 
+formula.
+
 ## Authors
 - Elia Mercatanti
 - Marco Calamai

@@ -1,4 +1,7 @@
 % B_SPLINE_BASE:
+%   Takes as input the order and a knot vector to evaluate and plot all
+%   elements of the relative B-Spline base, using Cox-de Boor recursion
+%   formula.
 %
 % Requires:
 %   - cox_de_boor.m
@@ -8,8 +11,8 @@
 
 clear
 
-% Ask user for input.
-prompt = {'Order:', 'Knocts vector:'};
+% Ask user for inputs.
+prompt = {'Order:', 'Knocts Vector:'};
 inputs_title = 'Insert Inputs';
 dimensions = [1 50];
 default_inputs = {'3', '[0 0 0 1 1 1]'};
@@ -17,8 +20,12 @@ inputs = inputdlg(prompt, inputs_title, dimensions, default_inputs);
 
 % Retrive inputs.
 order = str2double(inputs{1});
-t = str2num(inputs{2});
-num_points = 1000;
+knot_vector = str2num(inputs{2});
+num_curve_points = 1000;
+
+% Initialize steps and vector of evaluations for drawing base curve.
+steps = linspace(knot_vector(1), knot_vector(end), num_curve_points);
+base_element = zeros(1, num_curve_points);
 
 % Set the figure window for drawing plots.
 fig = figure('Name', 'B-Spline Base', 'NumberTitle', 'off');
@@ -33,16 +40,15 @@ axes = gca;
 axes.XAxisLocation = 'origin';
 axes.YAxisLocation = 'origin';
 
-% Initialization
-steps = linspace(t(1), t(end), num_points);
-base_y = zeros(1, num_points);
-
-for i = 1 : length(t) - order
-    for j = 1 : num_points
-        base_y(j) = cox_de_boor(i, order, t, steps(j), order);
+% Calculate and plot curves for the elements of the base using 
+% Cox-de Boor recursion formula.
+for i = 1 : length(knot_vector) - order
+    for j = 1 : num_curve_points
+        base_element(j) = cox_de_boor(i, order, order, knot_vector, ...
+                                      steps(j));
     end
     ordinal = iptnum2ordinal(i);
-    plot(steps, base_y, 'linewidth', 2, 'DisplayName', ...
+    plot(steps, base_element, 'linewidth', 3, 'DisplayName', ...
          [upper(ordinal(1)), ordinal(2:min(end)) ' Base Element']);
 end
 legend('Location', 'best');

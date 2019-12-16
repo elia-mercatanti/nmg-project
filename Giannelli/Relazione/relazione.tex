@@ -48,28 +48,28 @@ $$N_{i, r}(t) = \omega_{i,r}(t)N_{i, r-1}(t) + [1-\omega_{i+1, r}(t)]N_{i+1, r-1
 con
 $$\omega_{i,r}(t) = \begin{cases} \frac{t-t_i}{t_{i+r-1}-t_i}, & \text{se } t<t_{i+r-1} \\ 0, & \text{altrimenti} \end{cases}$$
 dove
-$$N_{i, 1}(t) = \begin{cases} 1, & \text{se } t\in[t_i, t_{i+1}] i = 0, \dots, n+k-1 \\ 0, & \text{altrimenti} \end{cases}$$
+$$N_{i, 1}(t) = \begin{cases} 1, & \text{se } t\in[t_i, t_{i+1}]\qquad i = 0, \dots, n \\ 0, & \text{altrimenti} \end{cases}$$
 Nel seguente codice Matlab \ref{code:coxdeboor}  sono state implementate le funzioni descritte sopra per il calcolo delle basi di \textit{Cox - De Boor}.\\
-La funzione principale è \texttt{cox\_deBoor}, la quale si occupa di calcolare le basi delle B-Spline richiamando la funzione \texttt{omega} per il calcolo dei coefficienti $\omega_{i,r}$ nella relazione ricorrente di \textit{Cox - De Boor}.\\
-A livello implementativo, nella funzione \texttt{cox\_deBoor} la parte più delicata è il controllo da effettuare nel caso in cui l'ordine della B-Spline sia $1$. In quel caso la funzione restituisce $1$ se il valore di $t\_star$ cade nell'intervallo $[t_i, t_{i+1}) $ ma nel caso in cui si trovasse nell'ultimo intervallo, bisogna prendere in considerazione anche l'ultimo valore dell'intervallo.\\
+La funzione principale è \texttt{cox\_de\_boor}, la quale si occupa di calcolare le basi delle B-Spline richiamando la funzione \texttt{omega} per il calcolo dei coefficienti $\omega_{i,r}$ nella relazione ricorrente di \textit{Cox - De Boor}.\\
+A livello implementativo, nella funzione \texttt{cox\_de\_boor} la parte più delicata è il controllo da effettuare nel caso in cui l'ordine della B-Spline sia $1$. In quel caso la funzione restituisce $1$ se il valore di $t\_star$ cade nell'intervallo $[t_i, t_{i+1}) $ ma nel caso in cui si trovasse nell'ultimo intervallo, bisogna prendere in considerazione anche l'ultimo valore dell'intervallo.\\
 Per quanto riguarda invece la funzione \texttt{omega}, è stato previsto un controllo per fare in modo che restituisca zero nel caso di denominatore nullo, che si può verificare in caso di nodi con molteplicità maggiore di uno.
 
-\lstinputlisting[label=code:coxdeboor, style=Matlab-editor, caption=B-Spline tramite relazione ricorrente di Cox - de Boor, basicstyle=\footnotesize\ttfamily]{../cox_de_boor.m}
+\lstinputlisting[label=code:coxdeboor, style=Matlab-editor, caption=B-Spline tramite relazione ricorrente di Cox - de Boor, basicstyle=\footnotesize\ttfamily, linerange={1-1, 27-47, 70-77}]{../cox_de_boor.m}
 
 Per disegnare degli esempi di basi B-Spline abbiamo utilizzato lo sript \ref{code:BasiBSpline} in cui viene richiamata la funzione \ref{code:coxdeboor} per il calcolo delle basi di \textit{Cox - De Boor} vista prima.\\
-In figura \ref{fig:BernsteinBaseExample} sono riportate le sei funzioni di un'esempio di base di Bernstein di ordine 6, la quale rappresenta un caso particolare di B-Spline in cui, il vettore esteso dei nodi è formato solamente da $\tau_0$ ripetuto ordine volte, seguito da $\tau_L$ ripetuto ordine volte.\\
-La figura \ref{fig:BSplineinBaseExample} invece mostra un esempio di base B-SPline di ordine 4 ($k = 4$) con vettore esteso di nodi definito come $t = [1, 1, 2, 3, 4, 5, 6, 6]$.
+In figura \ref{fig:BernsteinBaseExample} sono riportate le sei funzioni di un'esempio di base di Bernstein di ordine 6, la quale rappresenta un caso particolare di B-Spline in cui, il vettore esteso dei nodi è formato solamente da $\tau_0=0$ ripetuto ordine volte, seguito da $\tau_L=1$ ripetuto ordine volte.\\
+La figura \ref{fig:BSplineinBaseExample} invece mostra un esempio di base B-SPline di ordine 4 ($k = 4$) con vettore esteso di nodi definito come $t = [1, 1, 2, 3, 4, 5, 6, 6]$.\newpage
 
-\lstinputlisting[label=code:BasiBSpline, style=Matlab-editor, caption=Disegno basi B-Spline, basicstyle=\footnotesize\ttfamily]{../b_spline_base.m}
+\lstinputlisting[label=code:BasiBSpline, style=Matlab-editor, caption=Disegno basi B-Spline, basicstyle=\footnotesize\ttfamily, linerange={14-54}]{../b_spline_base.m}
 
-\begin{figure}[!]
+\begin{figure}[h]
 	\centering
 	\caption{Esempio di base con t = [0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1] e k=6}
 	\includegraphics[scale=0.7]{bezier_base_plot.eps}
 	\label{fig:BernsteinBaseExample}
 \end{figure}
 
-\begin{figure}[!]
+\begin{figure}[h]
 	\centering
 	\caption{Esempio di base con t = [1, 1, 2, 3, 4, 5, 6, 6] e k= 4}
 	\includegraphics[scale=0.7]{b-spline_base_plot.eps}
@@ -82,34 +82,32 @@ Dati $n+1$ punti di controllo, un curva B-Spline $\mathbf{X} : [a,b] = [\tau_0, 
 $$\mathbf{X}(t) := \sum_{i=0}^{n} \mathbf{d_i} N_{i, k}(t)$$
 
 Le curve B-Spline presenti in questa relazione sono state calcolate e rappresentate  utilizzando l'algoritmo di De Boor.\\ 
-L'algoritmo di De Boor è una generalizzazione dell'algoritmo di De Casteljeau; un modo veloce e numericamente stabile per trovare un punto in una B-Spline dato un $\mathbf{u}$ appartenente al dominio. Tale algoritmo si basa sul fatto che aumentando la molteplicità di un knot interno, decresce il numero di funzioni base non nulle che attraversano questo knot, infatti, se la molteplicità di questo knot è $m$, ci sono al più $degree – m +1$ funzioni base non nulle che attraversano questo knot. Questo implica che in un nodo di molteplicità pari al grado della curva, ci sarà solo un funzione base (essendo $degree – degree + 1 = 1$ ) non nulla il cui valore in corrispondenza di tale knot sarà uguale ad $1$ per il principio della partizione dell'unità.\\
-Quindi, nell'algoritmo di De Boor, un nodo $u$ viene inserito ripetutamente in modo che la sua molteplicità sia pari al grado della curva. L'ultimo nuovo punto di controllo generato sarà quindi il punto della curva che corrisponde ad $u$.\\
-Nella funzione Matlab  \ref{code:De_Boor_Algorithm} è stato implementato l'algoritmo di De Boor per il calcolo e la rappresentazione di curve B-Spline. La descrizione dell'algoritmo è illustrata nello pseudo codice \ref{alg:DeBoor}.
-
+L'algoritmo di De Boor è una generalizzazione dell'algoritmo di De Casteljeau; un modo veloce e numericamente stabile per trovare un punto in una B-Spline dato un valore del parametro $t$ appartenente al dominio. Tale algoritmo si basa sul fatto che aumentando la molteplicità di un knot interno, decresce il numero di funzioni base non nulle che attraversano questo knot, infatti, se la molteplicità di questo knot è $m$, ci sono al più $degree-m+1$ funzioni base non nulle che attraversano questo knot. Questo implica che in un nodo di molteplicità pari al grado della curva, ci sarà solo un funzione base (essendo $degree-degree+1=1$ ) non nulla il cui valore in corrispondenza di tale knot sarà uguale ad $1$ per il principio della partizione dell'unità.\\
+Quindi, nell'algoritmo di De Boor, un nodo $t$ viene inserito ripetutamente in modo che la sua molteplicità sia pari al grado della curva. L'ultimo nuovo punto di controllo generato sarà quindi il punto della curva che corrisponde ad $t$.\\
+Nella funzione Matlab  \ref{code:De_Boor_Algorithm} è stato implementato l'algoritmo di De Boor per il calcolo e la rappresentazione di curve B-Spline. La descrizione dell'algoritmo è illustrata nello pseudo codice \ref{alg:DeBoor}. Supponendo che il nodo $t$ si trovi nel knot span $[t_l, t_{l+1}$), vengono copiati i punti di controllo che saranno influenzati dall'algoritmo $\mathbf{d}_{l-s}, \mathbf{d}_{l-s-1}, \mathbf{d}_{l-s-2}, \dots , \mathbf{d}_{l-degree+1}, \mathbf{d}_{l-degree}$ in un nuovo array e rinominati come: $\mathbf{d}_{l-s,0} , \mathbf{d}_{l-s-1,0} , \mathbf{d}_{l-s-2,0} , ... , \mathbf{d}_{l-degree+1,0} , \mathbf{d}_{l-degree,0}$ dove lo 0 indica lo step iniziale (che ovviamente crescerà ad ogni passo dell'algoritmo).
 
 \begin{algorithm}
 	\caption{Algoritmo di De Boor}
+	\label{alg:DeBoor}
 	\begin{algorithmic} 
-		\REQUIRE $\mathbf{u}$
-		\ENSURE $\mathbf{C(u)}$, il valore della curva in $\mathbf{u}$.
+		\REQUIRE $t$
+		\ENSURE $\mathbf{C}(t)$, il valore della curva in $t$.
 		\IF{$\mathbf{u}$ non è un nodo già esistente}
-		\STATE $h = degree$ (inseriamo $\mathbf{u}$ esattamente grado volte)
+		\STATE $h = degree$ (inseriamo $t$ esattamente grado volte)
 		\STATE $s = 0$
 		\ELSE
-		\STATE $h = degree - s$ (inseriamo $\mathbf{u}$ $degree - s$ volte, dove $s$ è la molteplicità del nodo già esistente  )
+		\STATE $h = degree - s$ (inseriamo $t$ un numero di volte pari a $degree - s$, dove $s$ è la molteplicità del nodo già esistente  )
 		\ENDIF
-		\STATE Supponiamo che il nodo $\mathbf{u}$ si trovi nel knot span $[\mathbf{u}_l, \mathbf{u}_{l+1}$).
-		\STATE Copiamo i punti di controllo che saranno influenzati dall'algoritmo $\mathbf{P}_{l-s}, \mathbf{P}_{l-s-1}, \mathbf{P}_{l-s-2}, \dots , \mathbf{P}_{l-degree+1}, \mathbf{P}_{l-degree}$ in un nuovo array e li rinominiamo come: $\mathbf{P}_{l-s,0} , \mathbf{P}_{l-s-1,0} , \mathbf{P}_{l-s-2,0} , ... , \mathbf{P}_{l-degree+1,0} , \mathbf{P}_{l-degree,0}$ dove lo 0 indica lo step iniziale (che ovviamente crescerà ad ogni passo dell'algoritmo);
+		
 		\FOR{${r}$ from $1$ to $h$} 
 		\STATE {text
 			\FOR {$i$ from $l-degree+r$ to $l-s$}
-			\STATE {$\mathbf{a}_{i,r} = \frac{\mathbf{u} - \mathbf{u}_i}{\mathbf{u}_{i+degree-r+1}-\mathbf{u}_i}$}
-			\STATE {$\mathbf{P}_{i,r} = (1-\mathbf{a}_{i,r})*\mathbf{P}_{i-1,r-1}+\mathbf{P}_{i,r-1}$}
+			\STATE {$a_{i,r} = \frac{t - t_i}{t_{i+degree-r+1}-t_i}$}
+			\STATE {$\mathbf{d}_{i,r} = (1-\mathbf{a}_{i,r})*\mathbf{d}_{i-1,r-1}+\mathbf{d}_{i,r-1}$}
 			\ENDFOR
 		}
 		\ENDFOR
-		\RETURN $\mathbf{P}_{l-s,degree-s}$
-		\label{alg:DeBoor}
+		\RETURN $\mathbf{d}_{l-s,degree-s}$
 	\end{algorithmic}
 \end{algorithm}
 
@@ -131,11 +129,11 @@ Dati i vertici di controllo:
 L'importanza pratica di questa proprietà è la seguente. Supponiamo di aver disegnato una curva e di volerle applicare una certa trasformazione affine (rotazione,
 traslazione, scala, ...). Il modo più semplice di procedere è applicare ai vertici di controllo la trasformazione affine desiderata, poi ridisegnare la curva.
 
-\lstinputlisting[label=code:transAffCurve, style=Matlab-editor, caption=Trasformazioni affini - Traslazione Rotazione e Scalatura, basicstyle=\footnotesize\ttfamily]{../b_spline_curve_affine_trans.m}
+\lstinputlisting[label=code:transAffCurve, style=Matlab-editor, caption=Trasformazioni affini - Traslazione Rotazione e Scalatura, basicstyle=\footnotesize\ttfamily, linerange={11-87}]{../b_spline_curve_affine_trans.m}
 
 Nello Script Matlab \ref{code:transAffCurve} è stata inizialmente definita e disegnata una curva B-Spline e successivamente applicata una trasformazione affine prima ai suoi punti di controllo e successivamente alla curva. In particolare sono state applicate in quest'ordine una rotazione traslazione e scalatura, inizialmente ai vertici di controllo originali, ottenendo la curva di coloro arancione mostrata in Figura \ref{fig:transAffCurve}. Successivamente sono state applicate le stesse trasformazioni direttamente sulla curva originale ottenendo la B-Spline di colore viola mostrata in Figura \ref{fig:transAffCurve}. La proprietà di invarianza per trasformazioni affini viene confermata dal fatto che le due curve combaciano.
 
-\begin{figure}[!]
+\begin{figure}[h]
 	\centering
 	\caption{Trasformazioni Affini di una Curva B-spline}
 	\includegraphics[scale=0.7]{curve_affine_trans_plot.eps}
@@ -144,25 +142,25 @@ Nello Script Matlab \ref{code:transAffCurve} è stata inizialmente definita e di
 
 
 \paragraph{Località.}
-Muovendo $\mathbf{d_i}$ la curva $\mathbf{X}(t)$ cambia solo nell’intervallo $[t_i; t_{i+k})$. Questo segue dal fatto che $N_{i, k}(t) = 0$ per $t \notin [t_i; t_{i+k})$. Equivalentemente, $\mathbf{d_i}$ influenza solo al più $k$ segmenti di curva.
+Muovendo il vertice di controllo $\mathbf{d}_i$ la curva $\mathbf{X}(t)$ cambia solo nell’intervallo $[t_i, t_{i+k})$. Questo segue dal fatto che $N_{i, k}(t) = 0$ per $t \notin [t_i, t_{i+k})$. Equivalentemente, $\mathbf{d}_i$ influenza solo al più $k$ segmenti di curva.
 
-Negli script \ref{code:locality} e \ref{code:locality2} viene mostrata la proprietà di località. Nel primo script \ref{code:locality} viene mostrata come descritta sopra, ovvero data una B-Spline con $10$ punti di controllo, spostando il quinto punto la curva  varia solamente nell'intervallo $[t_5,t_9]$. Questo comportamento lo si può vedere in Figura \ref{fig:locality}. La proprietà di località ci dice anche che una curva B-Spline $\mathbf{X}(t^*)$ con $t^* \in [t_r,t_{r+1}]$ è determinata da $k$ punti di controllo $d_{e-k+1},\dots,d_r$. Nello script \ref{code:locality2} è mostrato questo comportamento, scegliendo $r=6$ e modificando i punti di controllo $d_j \notin [d_3, d_6]$ la curva $\mathbf{X}(t^*)$ rimane invariata per $t^* \in [t_6,t_7)$ come si può vedere in Figura \ref{fig:locality2}.
+Negli script \ref{code:locality} e \ref{code:locality2} viene mostrata la proprietà di località. Nel primo script \ref{code:locality} viene mostrata come descritta sopra, ovvero data una B-Spline di ordine 4 con $10$ punti di controllo, spostando il quinto punto la curva  varia solamente nell'intervallo $[t_5,t_9)$. Questo comportamento lo si può vedere in Figura \ref{fig:locality}. La proprietà di località ci dice anche che una curva B-Spline $\mathbf{X}(t^*)$ con $t^* \in [t_r,t_{r+1}]$ è determinata da $k$ punti di controllo $\mathbf{d}_{r-k+1},\dots,\mathbf{d}_r$. Nello script \ref{code:locality2} è mostrato questo comportamento, scegliendo $r=6$ e modificando i punti di controllo $\mathbf{d}_j \notin [\mathbf{d}_3, \mathbf{d}_6]$ la curva $\mathbf{X}(t^*)$ rimane invariata per $t^* \in [t_6,t_7)$ come si può vedere in Figura \ref{fig:locality2}. \newpage
 
-\lstinputlisting[label=code:locality, style=Matlab-editor, caption=Proprietà di Località, basicstyle=\footnotesize\ttfamily]{../b_spline_locality.m}
+\lstinputlisting[label=code:locality, style=Matlab-editor, caption=Proprietà di Località, basicstyle=\footnotesize\ttfamily, linerange={11-84}]{../b_spline_locality.m}
 
-\lstinputlisting[label=code:locality2, style=Matlab-editor, caption=Proprietà di Località 2, basicstyle=\footnotesize\ttfamily]{../b_spline_locality_2.m}
+\lstinputlisting[label=code:locality2, style=Matlab-editor, caption=Proprietà di Località 2, basicstyle=\footnotesize\ttfamily, linerange={11-82}]{../b_spline_locality_2.m} \newpage
 
 \begin{figure}[h!]
 	\centering
 	\caption{B-spline Località}
-	\includegraphics[scale=0.7]{locality_plot.eps}
+	\includegraphics[scale=0.5]{locality_plot.eps}
 	\label{fig:locality}
 \end{figure}
 
-\begin{figure}[!]
+\begin{figure}[h!]
 	\centering
 	\caption{B-spline Località 2}
-	\includegraphics[scale=0.7]{locality_2_plot.eps}
+	\includegraphics[scale=0.5]{locality_2_plot.eps}
 	\label{fig:locality2}
 \end{figure}
 
@@ -170,8 +168,7 @@ Negli script \ref{code:locality} e \ref{code:locality2} viene mostrata la propri
 La curva è contenuta nel guscio convesso del suo poligono di controllo.
 
 \paragraph{Variation Diminishing.}
-Il numero di intersezioni tra la curva e una retta qualunque (un piano per le curve
-nello spazio) è minore o uguale al numero di intersezioni tra il poligono di controllo e tale retta (piano). Ne segue che:
+Il numero di intersezioni tra la curva e una retta qualunque è minore o uguale al numero di intersezioni tra il poligono di controllo della curva e tale retta. Ne segue che:
 \begin{itemize}
 	\item Se il poligono di controllo è convesso, la curva è convessa.
 	\item Il numero di cambi di concavità della curva è minore o uguale al numero di
@@ -181,7 +178,7 @@ nello spazio) è minore o uguale al numero di intersezioni tra il poligono di co
 Nello script \ref{code:BSplineCurveVariationDiminishing} è mostrata questa proprietà. Fissata una curva B-Spline, sono stati generati due punti randomici per i quali far passare una retta. Qualsiasi retta generata dallo script avrà un numero di intersezioni con la curva minore o uguale al numero di intersezioni con il poligono di controllo.\\
 Nella figura \ref{fig:vardimcurve} sono raffigurati quattro esempi risultanti dall'esecuzione dello script \ref{code:BSplineCurveVariationDiminishing}.
 
-\begin{figure}
+\begin{figure}[h!]
 	\begin{subfigure}{6cm}
 		\centering 
 		\includegraphics[width=6cm]{variation_diminiscing_1_plot.eps}
@@ -201,21 +198,21 @@ Nella figura \ref{fig:vardimcurve} sono raffigurati quattro esempi risultanti da
 \end{figure}
 
 
-\lstinputlisting[label=code:BSplineCurveVariationDiminishing, style=Matlab-editor, caption=Variation diminishing, basicstyle=\footnotesize\ttfamily]{../b_spline_curve_variation_diminiscing.m}
+\lstinputlisting[label=code:BSplineCurveVariationDiminishing, style=Matlab-editor, caption=Variation diminishing, basicstyle=\footnotesize\ttfamily, linerange={11-58}]{../b_spline_curve_variation_diminiscing.m}
 
 \subsection{Rappresentazione di curve B-Spline chiuse}
 Siano $\mathbf{d}_1,\dots \mathbf{d}_m$ i vertici di controllo del poligono chiuso (con $\mathbf{d}_1 = \mathbf{d}_m$). 
-Per definire una curva B-SPline chiusa di ordine $k$, si sceglie la partizione nodale $$\mathbf{t} = \left[ \frac{-k}{m-1} : \frac{1}{m-1} : \frac{k+m-1}{m-1} \right]$$
+Per definire una curva B-Spline chiusa di ordine $k$, si sceglie la partizione nodale $$\mathbf{t} = \left[ \frac{-k}{m-1} : \frac{1}{m-1} : \frac{k+m-1}{m-1} \right]$$
 e si estende il poligono di controllo  aggiungendo i vertici $$\mathbf{d}_{m+1} = \mathbf{d}_2,\mathbf{d}_{m+2} = \mathbf{d}_3, \dots, \mathbf{d}_{m+k-1} = \mathbf{d}_k, \mathbf{d}_{m+k} = \mathbf{d}_{k+1} $$
 
 Lo script Matlab \ref{code:BSplineClosed}, dati in input il grado della curva ed i vertici di controllo, costruisce una curva B-Spline chiusa generando la partizione nodale estesa ed estendendo il poligono di controllo come descritto sopra. In figura \ref{fig:BSplineClosed} è riportato un esempio di curva B-Spline chiusa di ordine quattro con dieci vertici di controllo generata dallo script \ref{code:BSplineClosed} .
 
-\lstinputlisting[label=code:BSplineClosed, style=Matlab-editor, caption=Curva B-Spline Chiusa, basicstyle=\footnotesize\ttfamily]{../b_spline_closed.m}
+\lstinputlisting[label=code:BSplineClosed, style=Matlab-editor, caption=Curva B-Spline Chiusa, basicstyle=\footnotesize\ttfamily, linerange={11-89}]{../b_spline_closed.m}
 
-\begin{figure}[!]
+\begin{figure}[h!]
 	\centering
 	\caption{Esempio di B-spline Chiusa}
-	\includegraphics[scale=0.7]{closed_plot.eps}
+	\includegraphics[scale=0.6]{closed_plot.eps}
 	\label{fig:BSplineClosed}
 \end{figure}
 
@@ -236,7 +233,7 @@ con $u, v \in [a, b] \subset \mathbb{R}^2$.
 
 Siano $\{B^{A}_{0}(u), \dots, B^{A}_{n}(u) \}$, $\{ B^{B}_{0}(v), \dots, B^{B}_{m}(v) \}$
 due insiemi di funzioni linearmente indipendenti definiti sui due intervalli della retta reale
-$$ I_A = [a_A, b_A],  I_B = [a_B, b_B]$$
+$$ I_A = [a_A, b_A],\  I_B = [a_B, b_B]$$
 con i quali si possono definire i due spazi di funzioni monovariate
 $$S_1 = < B^{A}_{0}(u), \dots, B^{A}_{n}(u) > \qquad S_2 = < B^{B}_{0}(v), \dots, B^{B}_{m}(v) >$$
 Lo spazio tensor-product
@@ -244,20 +241,20 @@ $S1 \otimes S2$
 dei due spazi $S1, S2$ è lo spazio delle funzioni bivariate definite sul rettangolo
 $R:= I_A \times I_B$
 che sono combinazioni lineari delle funzioni prodotto
-$B^{A}_{i}(u) B^{A}_{i}(v)$
+$B^{A}_{i}(u) B^{B}_{j}(v)$
 al variare di $i$ da $0$ a $n$ e $j$ da $0$ a $m$.
 $$S_1 \otimes S_2 = \left\{ f : \mathbb{R} \rightarrow \mathbb{R}: f(u, v) = \sum_{i = 0}^{n}\sum_{j = 0}^{m} c_{i,j}B^A_i(u)B^B_j(v) \right\}$$
 con $c_{i,j} \in \mathbb{R}, i=0,\dots, n, j=0,\dots,m$.\\
 La superficie parametrica tensor-product (patch tensor-product) è definita come
 $$\mathbf{X}(u, v) = \sum_{i = 0}^{n} \sum_{j = 0}^{m} \mathbf{b}_{i, j} B^{n}_{i}(u)B_{j}^{m}(v) $$
 a partire da un reticolo di (n + 1)(m + 1) punti di controllo.\\
-Siano $U = \{u_0, \dots, u_{n+k}  \}, V = \{ v_o, \dots, v_{m+l}   \}$ due vettori estesi di nodi associati agli intervalli $[a,b] = \{u_{k-1}, \dots, u_{n+1}   \}, [c,d] = \{ v_{l-1}, v_{m+1}\}$, la superficie tensor-product B-Spline $$\mathbf{X}(u, v) = \sum_{i = 0}^{n} \sum_{j = 0}^{m} \mathbf{d}_{i, j} N_{i,k}(u)N_{j,l}(v) $$
+Siano $U = \{u_0, \dots, u_{n+k}  \}, V = \{ v_0, \dots, v_{m+l}   \}$ due vettori estesi di nodi associati agli intervalli $[a,b] = \{u_{k-1}, \dots, u_{n+1}   \}, [c,d] = \{ v_{l-1}, v_{m+1}\}$, la superficie tensor-product B-Spline $$\mathbf{X}(u, v) = \sum_{i = 0}^{n} \sum_{j = 0}^{m} \mathbf{d}_{i, j} N_{i,k}(u)N_{j,l}(v) $$
 con $(u,v) \in [a,b] \times [c,d]$ è definita a partire da $(n+1)(m+1) $ punti di controllo di de Boor $\mathbf{d}_{i,j}, i=0,\dots, n, j=0, \dots, m$.\\
 Nello script Matlab \ref{code:BSpline_base_surface} è stato implementato il calcolo e rappresentazione di basi B-Spline di superfici dati in input i gradi delle due basi e i due vettori di nodi utilizzando la definizione di superficie tensor-product vista sopra e calcolando gli elementi delle basi mediante \textit{Cox-de Boor} come visto precedentemente per le curve.\\
 In figura \ref{fig:BSplineBaseSurface} è mostrato un esempio di base B-Spline generata dallo script \ref{code:BSpline_base_surface}, fissati $n = m= 2$ e vettori dei nodi $t_1 = t_2 =[0, 0, 0, 1, 1, 1]$.
 
 
-\lstinputlisting[label=code:BSpline_base_surface, style=Matlab-editor, caption=Base delle superfici B-Spline, basicstyle =\footnotesize\ttfamily ]{../b_spline_surface_base.m}
+\lstinputlisting[label=code:BSpline_base_surface, style=Matlab-editor, caption=Base delle superfici B-Spline, basicstyle =\footnotesize\ttfamily, linerange={11-70} ]{../b_spline_surface_base.m}
 \begin{figure}[h!]
 	\centering
 	\caption{Base superficie B-Spline}
@@ -266,26 +263,26 @@ In figura \ref{fig:BSplineBaseSurface} è mostrato un esempio di base B-Spline g
 \end{figure}
 Nello script \ref{code:BSpline_surface} e relativa immagine \ref{fig:BSpline_Surface} è stata rappresentata una curva B-Spline utilizzando la definizione di superficie tensor-product vista in precedenza. Sono state inoltre rappresentate le curve di bordo della superficie. I bordi di una superficie B-Spline sono definiti come:
 $$\mathbf{X}(a,v) = \sum_{j=0}^{m} \mathbf{d}_{0,j}N_{j, l}(v) \quad \mathbf{X}(b,v) = \sum_{j=0}^{m} \mathbf{d}_{n,j}N_{j,l}(v)$$
-$$\mathbf{X}(u, c) = \sum_{i=0}^{n} \mathbf{d}_{i,0}N_{i,k}(u) \quad \mathbf{X}(u,d) = \sum_{i=0}^{n} \mathbf{d}_{i, m}N_{i,k}(u)$$
+$$\mathbf{X}(u, c) = \sum_{i=0}^{n} \mathbf{d}_{i,0}N_{i,k}(u) \quad \mathbf{X}(u,d) = \sum_{i=0}^{n} \mathbf{d}_{i, m}N_{i,k}(u)$$ \newpage
 
-\lstinputlisting[label=code:BSpline_surface, style=Matlab-editor, caption= Superficie B-Spline, basicstyle =\footnotesize\ttfamily ]{../b_spline_surface_tensor_product.m}
+\lstinputlisting[label=code:BSpline_surface, style=Matlab-editor, caption= Superficie B-Spline, basicstyle =\footnotesize\ttfamily, linerange={11-87} ]{../b_spline_surface_tensor_product.m}
 
 
 \begin{figure}[h!]
 	\centering
 	\caption{Superficie B-Spline e relative curve di bordo}
-	\includegraphics[scale=0.7]{surface_tensor_product_plot.eps}
+	\includegraphics[scale=0.55]{surface_tensor_product_plot.eps}
 	\label{fig:BSpline_Surface}
 \end{figure}
 
 \subsection{Proprietà di invarianza per trasformazioni affini}
-Anche le superfici B-SPline godono della proprietà di invarianza per trasformazioni affini vista in precedenza per le curve. L’importanza pratica di questa proprietà è la seguente: supponiamo di aver disegnato una superficie e di volerle
+Anche le superfici B-Spline godono della proprietà di invarianza per trasformazioni affini vista in precedenza per le curve. L’importanza pratica di questa proprietà è la seguente: supponiamo di aver disegnato una superficie e di volerle
 applicare una certa trasformazione affine (rotazione, traslazione, scala, ...). Il modo più semplice di procedere è 
 applicare ai vertici di controllo la trasformazione affine desiderata e poi ridisegnare la curva.
 Nello script Matlab \ref{code:BSplineSurfaceAffineTrans} è stata inizialmente definita e disegnata una superficie B-Spline e successivamente applicata una trasformazione affine. In particolare, sono state applicate in quest'ordine, una rotazione, traslazione e scalatura inizialmente ai vertici di controllo e successivamente direttamente sulla curva originale, ottenendo la stessa B-spline come mostrato in figura \ref{fig:BSplineSurfaceAffineTrans} .
 La proprietà di invarianza per trasformazioni affini viene confermata dal fatto che le due superfici trasformate combaciano.
 
-\lstinputlisting[label=code:BSplineSurfaceAffineTrans, style=Matlab-editor, caption= Trasformazione affine superficie B-Spline, basicstyle =\footnotesize\ttfamily ]{../b_spline_surface_affine_trans.m}
+\lstinputlisting[label=code:BSplineSurfaceAffineTrans, style=Matlab-editor, caption= Trasformazione affine superficie B-Spline, basicstyle =\footnotesize\ttfamily, linerange={11-133} ]{../b_spline_surface_affine_trans.m}
 
 \begin{figure}[h!]
 	\centering
@@ -295,22 +292,22 @@ La proprietà di invarianza per trasformazioni affini viene confermata dal fatto
 \end{figure}
 
 \subsection{Algoritmo di de Boor}
-L'algoritmo di de-Boor può essere esteso per calcolare anche le superfici B-SPline. Più precisamente,  l'algoritmo può essere applicato diverse volte, fino a che non si ottiene il punto corrispondente sulla superficie B-Spline $p(u,v)$ dato $(u,v)$. Dato quindi:
+L'algoritmo di de Boor può essere esteso per calcolare anche le superfici B-Spline. Più precisamente,  l'algoritmo può essere applicato diverse volte, fino a che non si ottiene il punto corrispondente sulla superficie B-Spline $p(u,v)$ dato $(u,v)$. Dato quindi:
 $$p(u, v) = \sum_{i = 0}^{n} \sum_{j = 0}^{m}  N_{i,k}(u)N_{j,l}(v) \mathbf{d}_{i, j} $$
 Invece di calcolare la superficie effettuando le operazioni in cascata, possiamo porre:\\
-$$q_i(v) = \sum_{j = 0}^{m}  N_{j,l}(v) \mathbf{d}_{i, j} $$
-Come si può notare, $q_i(v)$ è un punto sulla curva B-Spline definita dai punti di controllo $p_{i,0},p_{i,1}, \dots, p_{i,m}$.
+$$q_i(v) = \sum_{j = 0}^{m}  N_{j,l}(v) \mathbf{d}_{i, j} \qquad i=0,\dots,n$$
+Come si può notare, $q_i(v)$ è un punto sulla curva B-Spline definita dai punti di controllo $d_{i,0},d_{i,1}, \dots, d_{i,m}$.
 A questo punto, si può utilizzare l'algoritmo di de Boor per calcolare $q_i$ per ogni $i$.\\
 Si ottiene quindi 
 $$P(u,v) = \sum_{i = 0}^{n}  N_{i,k}(u) q_i(v)$$
-Possiamo quindi utilizzare nuovamente utilizzare l'algoritmo di de Boor.\\
-Quindi, riassumendo, quello che si fa è applicare $m$ volte l'algoritmo di de Boor per calcolare $q_i(v)$ per ogni $i$ e poi altre $n$ volte per calcolare $p(u,v)$ per ogni $j$.
+Possiamo quindi utilizzare nuovamente l'algoritmo di de Boor.\\
+Riassumendo, quello che si fa è applicare $n+1$ volte l'algoritmo di de Boor per calcolare i vari $q_i(v)$ e poi una volta per calcolare $p(u,v)$.
 Lo script \ref{code:De_Boor_Algorithm_Surface} implementa l'algoritmo di de Boor modificato per calcolare le superfici B-Spline come spiegato sopra, mentre nello script \ref{code:BSpline_surface_DeBoor} è stata rappresentata mediante l'algoritmo di de Boor la superficie B-Spline vista in precedenza. Il risultato di quest'ultimo è mostrato in figura \ref{fig:BSpline_surface_DeBoor}.
 
 
 \lstinputlisting[label=code:De_Boor_Algorithm_Surface, style=Matlab-editor, caption= Algoritmo di de Boor per le superfici B-Spline, basicstyle =\footnotesize\ttfamily ]{../de_boor_algorithm_surface.m}
 
-\lstinputlisting[label=code:BSpline_surface_DeBoor, style=Matlab-editor, caption= Rappresentazione superficie B-Spline mediante algoritmo di de Boor =\footnotesize\ttfamily ]{../b_spline_surface_de_boor.m}
+\lstinputlisting[label=code:BSpline_surface_DeBoor, style=Matlab-editor, caption= Rappresentazione superficie B-Spline mediante algoritmo di de Boor =\footnotesize\ttfamily, linerange={11-69}]{../b_spline_surface_de_boor.m}
 \begin{figure}[h!]
 	\centering
 	\caption{Rappresentazione superficie B-Spline mediante algoritmo di de Boor}

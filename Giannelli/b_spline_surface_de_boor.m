@@ -12,10 +12,15 @@ clear
 control_points = [4.5 4.5 0; 3.5 4.5 0; 2.5 4.5 0; 4.5 3.5 2.6; ...
                   3.5 3.5 2.6; 2.5 3.5 2.6; 4.5 1.5 0; 3.5 1.5 0; ...
                   2.5 1.5 0];
-order_1 = 3;
-order_2 = 3;
-knot_vector_1 = [0 0 0 1 1 1];
-knot_vector_2 = [0 0 0 1 1 1];
+              
+p_x = [1 2 3 3; 1 2 3 4; 1 2 3 2];
+p_y = [1 1 1 4; 2 2 2 6; 3 3 3 4];
+p_z = [2 1 2 5; 2 2 2 4; 0 1 1 4];
+control_points = [reshape(p_x', [], 1), reshape(p_y', [], 1), reshape(p_z', [], 1)];
+order_1 = 5;
+order_2 = 4;
+knot_vector_1 = [1 2 3 4 5 6 7 8];
+knot_vector_2 = [0 0 0 0 1 1 1 1];
 num_steps = 50;
 
 % Initialization of the two basis matrices and steps to plot the surface.

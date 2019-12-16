@@ -5,7 +5,7 @@ function [curve_point] = de_boor_algorithm(control_points, degree, ...
     k = find(knot_vector <= t_star);
     k = k(end);
 
-    % Calculate the multiplicity of t_star in knot vector (0<=s<=degree+1).
+    % Calculate multiplicity of t_star in the knot vector (0<=s<=degree+1).
     s = sum(eq(t_star, knot_vector));
 
     % Num. times t_star must be repeated to reach a multiplicity
@@ -14,7 +14,7 @@ function [curve_point] = de_boor_algorithm(control_points, degree, ...
 
     % Copy of influenced control points.
     order = degree + 1;
-    P_ir = zeros(order, size(control_points, 2), order);
+    P_ir = zeros(order, size(control_points, 2), h+1);
     P_ir((k-degree):(k-s), :, 1) = control_points((k-degree):(k-s), :);
 
     % Main De Boor algorithm.

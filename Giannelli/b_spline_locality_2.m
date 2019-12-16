@@ -27,7 +27,7 @@ hold on;
 grid on;
 xlabel('X');
 ylabel('Y');
-title('Locality Property 1');
+title('Locality Property 2');
 axes = gca;
 axes.XAxisLocation = 'origin';
 axes.YAxisLocation = 'origin';

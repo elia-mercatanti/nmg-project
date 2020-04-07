@@ -1,4 +1,5 @@
 % B_SPLINE_SURFACE_DE_BOOR:
+%   Plot a B-Spline surface using De Boor algorithm.
 %
 % Requires:
 %   - de_boor_algorithm.m

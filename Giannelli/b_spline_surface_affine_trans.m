@@ -1,4 +1,6 @@
 % B_SPLINE_SURFACE_TRANS:
+%   Apply some affine transformations to a B-Spline surface and plot the
+%   results.
 %
 % Requires:
 %   - cox_de_boor.m

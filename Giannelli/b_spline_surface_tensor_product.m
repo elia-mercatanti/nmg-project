@@ -1,4 +1,5 @@
 % B_SPLINE_SURFACE_TENSOR_PRODUCT:
+%   Plot a B-Spline surface using tensor product.
 %
 % Requires:
 %   - cox_de_boor.m

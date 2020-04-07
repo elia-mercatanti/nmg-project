@@ -1,4 +1,5 @@
 % B_SPLINE_SURFACE_BASE:
+%   Plot the bases of a B-Spline surface and plot them.
 %
 % Requires:
 %   - cox_de_boor.m

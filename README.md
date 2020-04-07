@@ -48,6 +48,35 @@ Takes as input the order and a knot vector to evaluate and plot all
 elements of the relative B-Spline base, using Cox-de Boor recursion 
 formula.
 
+### B-Spline Closed
+Close a B-Spline Curve given in input and plot the results.
+
+### B-Spline Curve - Affine Transformation
+Apply some affine transformations to a B-Spline curve and plot the
+results.
+
+### B-Spline Curve - Variation Diminiscing
+Test the variation diminiscing property of a B-Spline curve.
+
+### B-Spline Locality Property
+Test the locality property of a B-Spline curve.
+
+### B-Spline Inverse Locality Property
+Test the inverse locality property of a B-Spline curve.
+
+### B-Spline Surface - Affine Transformation
+Apply some affine transformations to a B-Spline surface and plot the
+results.
+
+### B-Spline Surface Base
+Plot the bases of a B-Spline surface and plot them.
+
+### B-Spline Surface - De Boor Algorithm
+Plot a B-Spline surface using De Boor algorithm.
+
+### B-Spline Base - Tensor Product
+Plot a B-Spline surface using tensor product.
+
 ## Authors
 - Elia Mercatanti
 - Marco Calamai

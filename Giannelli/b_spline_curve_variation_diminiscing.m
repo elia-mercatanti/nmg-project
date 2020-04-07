@@ -1,4 +1,5 @@
 % B_SPLINE_CURVE_VARIATION_DIMINISCING:
+%   Test the variation diminiscing property of a B-Spline curve.
 %
 % Requires:
 %   - de_boor_algorithm.m

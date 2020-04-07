@@ -1,4 +1,5 @@
 % B_SPLINE_LOCALITY:
+%  Test the locality property of a B-Spline curve.
 %
 % Requires:
 %   - de_boor_algorithm.m

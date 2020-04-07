@@ -1,4 +1,6 @@
 % B_SPLINE_CURVE_AFFINE_TRANS:
+%   Apply some affine transformations to a B-Spline curve and plot the
+%   results.
 %
 % Requires:
 %   - de_boor_algorithm.m

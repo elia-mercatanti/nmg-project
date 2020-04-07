@@ -1,4 +1,5 @@
 % B_SPLINE_CLOSED:
+%   Close a B-Spline Curve given in input and plot the results.
 %
 % Requires:
 %   - de_boor_algorithm.m
